@@ -1,0 +1,3 @@
+base_diridarek_homepage:
+    path:     /
+    defaults: { _controller: BaseDiridarekBundle:Default:index }

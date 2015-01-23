@@ -1,0 +1,7 @@
+parameters:
+#    base_diridarek.example.class: Base\DiridarekBundle\Example
+
+services:
+#    base_diridarek.example:
+#        class: %base_diridarek.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

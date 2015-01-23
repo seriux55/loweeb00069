@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -30,7 +30,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        [ BaseDiridarekBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -38,6 +38,16 @@ assetic:
         #    jar: "%kernel.root_dir%/Resources/java/compiler.jar"
         #yui_css:
         #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
+        # mes modis pour compresser css et js
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
+            #apply_to: "\.css$"
+        yui_js:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
+            #apply_to: "\.js$"
+        cssembed:
+            jar: "%kernel.root_dir%/Resources/java/cssembed-0.4.5.jar"
+            #apply_to: "\.css$"
 
 # Doctrine Configuration
 doctrine:
@@ -49,6 +59,8 @@ doctrine:
         user:     "%database_user%"
         password: "%database_password%"
         charset:  UTF8
+        mapping_types:
+            enum: string
         # if using pdo_sqlite as your database driver, add the path in parameters.yml
         # e.g. database_path: "%kernel.root_dir%/data/data.db3"
         # path:     "%database_path%"
@@ -60,7 +72,22 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
+    #auth_mode: "%mailer_auth_mode%"
     host:      "%mailer_host%"
+    #port:      "%mailer_port%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fos_user:
+    db_driver: orm
+    firewall_name: main
+    user_class: Base\UserBundle\Entity\User
+    from_email:
+        address:        couzina@diridarek.com
+        sender_name:    diridarek
+    registration:
+        form:
+            type:       base_user_registration
+        confirmation:
+            enabled:    true

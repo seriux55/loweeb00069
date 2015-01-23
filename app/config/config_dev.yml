@@ -29,3 +29,9 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+
+doctrine_migrations:
+    dir_name: %kernel.root_dir%/DoctrineMigrations
+    namespace: Application\Migrations
+    table_name: Migration_versions
+    name: Application Migrations

@@ -1,0 +1,14 @@
+base_diridarek:
+    resource: "@BaseDiridarekBundle/Resources/config/routing.yml"
+    prefix:   /
+
+base_user:
+    resource: "@BaseUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+_console:
+    resource: "@CoreSphereConsoleBundle/Resources/config/routing.yml"
+    prefix: /_console
