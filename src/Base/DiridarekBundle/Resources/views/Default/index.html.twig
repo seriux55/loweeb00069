@@ -1,1 +1,177 @@
-Hello!
+{% extends "::base.html.twig" %}
+
+{% block body %}	
+<div class="bloc_body">
+    <div class="iden">
+        <div class="idencont">
+            <div class="idencontc">
+                <div class="idenconta">
+                    <h2>Bienvenue...</h2> 
+                    <p>Un site de rencontre est né en Algérie ...</p>
+                    <p>Alger, Oran, Annaba, Mascara, Tlemcen, Tiaret, Biskra, Jijel, Bejaia, Paris, Marseille,...</p>
+                    <p>Derti edar wela mezel ? Venez rencontrer, dialoguer, discuter avec des presonnes près de chez vous.</p>
+                    <h3>Ne l'attendez plus, venez le prendre!</h3>
+                    <h4>DIRIDAREK!</h4>
+                    <p>diridarek.com compte déja plus de 8000 membres inscrits!</p>
+                </div>
+                <div class="idencontb">
+                    <div class="idenconte">
+                        <form action="#" method="post">
+                            <div class="forma">
+                                <label class="garlabi">Ton email</label>
+                                <input class="forput" type="text" name="maill" placeholder="ex : khaled.feniche@gmail.com" value="">
+                            </div>
+                            <div class="forma">
+                                <label class="garlabi">Mot de passe</label>
+                                <input class="forput" type="password" size="35" name="passwordd">
+                            </div>
+                            <div class="formb">
+                                <input class="forbo" type="submit" value="Se connecter" name="valider">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="idenconte">
+                        <div class="identi">
+                            <h2><strong>Nouveau ?</strong> Inscrivez-vous</h2>
+                        </div>
+                        <form  class="idente" action="#" method="post" id="inscription">
+                            <div class="forma">
+                                <label class="garlabi">Prénom</label>
+                                <input class="forput" type="text" name="prenom" placeholder="ex : khaled" id="prenom" value="">
+                            </div>
+                            <div class="ccabirati">
+                                <label class="garlabi">Nom</label>
+                                <input class="forput" type="text" size="35" name="nom" value="Bilal">
+                            </div>
+                            <div class="forma">
+                                <label class="garlabi">Année de naissance</label>
+                                <select class="garlabi" name="naissance" id="naissance">
+                                    <option value="1930">1930</option>
+                                    <option value="1996">1996</option>
+                                </select>
+                            </div>
+                            <div class="forma">
+                                <label class="garlabi">Sexe</label>
+                                <p>
+                                    <input class="sexi" type="radio" name="sexe" value="Mr" checked />
+                                    Homme
+                                </p>
+                                <p>
+                                    <input class="sexi" type="radio" name="sexe" value="Mlle" />
+                                    Femme
+                                </p>
+                            </div>
+                            <div class="forma">
+                                <label class="garlabi">Ton email</label>
+                                <input class="forput" type="text" name="mail" placeholder="ex : khaled.feniche@gmail.com" id="mail" value="">
+                                                                                                                    </div>
+                            <div class="forma">
+                                <label class="garlabi">Mot de passe</label>
+                                <input class="forput" type="password" size="35" name="password" id="password">
+                            </div>
+                            <div class="ccabirati">
+                                <label class="garlabi">Pass</label>
+                                <input class="forput" type="password" size="35" name="pass" value="">
+                            </div>
+                            <div class="formb">
+                                <input class="forbo" type="submit" value="S'inscrire" name="valider">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	
+<!--
+<div class="vitrine">
+    <img src="../images/vitrine.png" alt="diridarek.com" />
+    <p>
+        <a href="inscription.php" target="_blank" class="inza">Nouveau ? Devenez membre</a>
+    </p>
+</div>
+-->
+<div class="vitrina">
+    <img src="{{ asset('bundles/basediridarek/images/nti.png') }}" alt="diridarek.com" />
+    <p>
+        <a href="inscription.php" target="_blank" class="inza">Nouveau ? Devenez membre</a>
+    </p>
+</div>
+<div class="backti">	
+    <div  class="titia">
+        <h2>Déja plus de 8000 membres</h2>
+        <p>Réservé uniquement aux membres. Inscrivez vous gratuitement et rendez vous sur le site de 18h00 à 01h00.</p>
+    </div>
+
+    <div class="diins">
+        <img src="{{ asset('bundles/basediridarek/images/back_mem.png') }}" alt="diridarek.com" />
+    </div>
+    <div class="casoute">
+        <a href="inscription.php" target="_blank">S'inscrire</a>
+    </div>
+</div>
+<div class="backti">	
+    <div class="titia">
+        <h2>C'est nouveau</h2>
+        <p>Venez rencontrer, dialoguer et discuter avec des personnes près de chez vous! </p>
+    </div>
+    <div class="difo">
+        <img src="{{ asset('bundles/basediridarek/images/press/derti_diridarek.jpg') }}" alt="diridarek.com" />
+        <div class="difobo">
+            <h3>Qu'est ce que diridarek.com ?</h3>
+            <p>diridarek est le nouveau site de rencontre qui donne le pouvoir aux femmes. c'est elles qui choisissent pas eux.</p>
+            <p>Chercher son âme soeur, discuter, rencontrer des personnes sur internet est possible en Algérie grâce à diridarek.com.</p>
+            <p>Notre mission : Vous permettre de faire de belles rencontres !</p>
+            <p></p>
+        </div>
+    </div>
+</div>
+<div class="titia">
+    <h2>Quelques chiffres</h2>
+    <p>Inscrivez vous gratuitement et venez diridarek!</p>
+</div>
+<div class="titimg">
+    <img src="{{ asset('bundles/basediridarek/images/press/chiffre_diridarek.jpg') }}" alt="diridarek.com" />
+</div>
+<aside>
+    <p>Une question ? un avis ? Une remarque ? <a href="mailto:couzina@diridarek.com">écrivez-nous</a>.</p>
+</aside>
+{% endblock %}
+
+{% block javascripts %}
+<script type='text/javascript'>
+    // test email
+    function test_email (my_email) {
+        var new_string = new String(my_email);
+        if (!new_string.match('^[-_\.0-9a-zA-Z]{1,}@[-_\.0-9a-zA-Z]{1,}[\.][0-9a-zA-Z]{2,}$')) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    // fin test email
+    $(document).ready(function(){
+        $('#inscription').on('submit', function() {
+            // je récupère les valeurs
+            var pseudo = $('#prenom').val();
+            var mail   = $('#mail').val();
+            var pass   = $('#password').val();
+                if(pseudo.length>2){
+                    if(test_email(mail)===true){
+                        if(pass.length<6 || pass.length>20 ){
+                            alert('Il faut choisir un mot de passe entre 6 et 20 caractères');	
+                            return false;
+                        }
+                    }else{
+                        alert('Vérifiez votre adresse mail');
+                        return false;
+                    }
+                }else{
+                    alert('Le prénom doit avoir au moins 3 caractères');
+                    return false;
+                }
+        });
+    });
+</script>
+{% endblock %}
