@@ -24,7 +24,8 @@
         "doctrine/doctrine-migrations-bundle": "2.1.*@dev",
         "coresphere/console-bundle": "dev-master",
         "jms/serializer-bundle": "0.13.*@dev",
-        "doctrine/doctrine-fixtures-bundle": "2.2.*@dev"
+        "doctrine/doctrine-fixtures-bundle": "2.2.*@dev",
+        "ircmaxell/password-compat": "1.0.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
