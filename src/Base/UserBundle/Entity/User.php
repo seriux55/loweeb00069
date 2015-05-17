@@ -4,10 +4,11 @@ namespace Base\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints AS Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="User")
+ * @ORM\Table(name="diridarek__User")
  */
 class User extends BaseUser
 {
@@ -60,7 +61,7 @@ class User extends BaseUser
     /**
      * @var string
      *
-     * @ORM\Column(name="firstname", type="string", length=255)
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=false)
      */
     private $firstname;
 
@@ -99,7 +100,7 @@ class User extends BaseUser
      */
     private $deposit;
     
-
+    
     /**
      * Set gender
      *

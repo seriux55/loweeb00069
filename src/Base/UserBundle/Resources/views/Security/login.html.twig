@@ -1,56 +1,34 @@
-{% extends "BaseUserBundle::layout.html.twig" %}
-
-{% trans_default_domain 'FOSUserBundle' %}
-
-{% block fos_user_content %}
-
-    <div class="bloc_page_bodyg">
-        <div class="nouveau1r1">
-            <h3>Connexion</h3>
-        </div>
-        <div class="sectiono">
-            <div id="mr1">
-                <div class="nouveau7">                      
-                    <form action="{{ path("fos_user_security_check") }}" method="post">
-                        <div class="mr7">
-                            <div class="mr3">
-                                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
-                            </div>
-                            <div class="mr3">
-                                <label for="username">{{ 'security.login.username'|trans }}</label>
-                                <input class="ouardepp" type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-                            </div>
-                            <div class="mr3">
-                                <label for="password">{{ 'security.login.password'|trans }}</label>
-                                <input class="ouardepp" type="password" id="password" name="_password" required="required" />
-                            </div>
-                            <div class="mr3">
-                                <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
-                                <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
-                            </div>
-                            <div class="mr3">
-                                <a href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
-                            </div>
-                            <div class="mr3">
-                                <a href="{{ path('fos_user_registration_register') }}">Inscription</a>
-                            </div>
-                        </div>
-                        <div class="mr2">
-                            <div class="mr6">
-                                <input class="trouvezzz" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
-                            </div>
-                        </div>
-                        <div class="mr2">
-                            <div class="mr6">
-                                {% if error %}
-                                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+{% trans_default_domain 'FOSUserBundle' %}                    
+<form action="{{ path("fos_user_security_check") }}" method="post">
+    <div class="forma">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
     </div>
-
-{% endblock fos_user_content %}
+    <div class="forma">
+        <label for="username">Ton email</label>
+        <input class="forput" type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
+    </div>
+    <div class="forma">
+        <label for="password">Mot de passe</label>
+        <input class="forput" type="password" id="password" name="_password" required="required" />
+    </div>
+    <div class="forma">
+        <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+        <label for="remember_me">{{ 'security.login.remember_me'|trans }}</label>
+    </div>
+    <div class="forma">
+        <a class="garlabi" href="{{ path('fos_user_resetting_request') }}">Mot de passe oublié</a>
+    </div>
+    <div class="forma">
+        <a class="garlabi" href="{{ path('fos_user_registration_register') }}">Inscription</a>
+    </div>
+    <div class="forma">
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+    </div>
+    <div class="forma">
+        <input type="hidden" name="_target_path" value="/fr/" />
+        <input type="hidden" name="_failure_path" value="/" />
+        <input class="forbo" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+    </div>
+</form>

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="{{ asset('bundles/basediridarek/css/style.css') }}"/>
+        <!--[if lt IE 9]
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js></script>
+        <![endif]-->
+        <meta name="Description" content="Diridarek.com - Ne l'attendez plus, venez le prendre! DIRIDAREK! Le site de rencontre en Algérie" /> 
+        <meta name="Keywords" 	 content="rencontre, algerie, tchat, fille, algérie, femme, halal, alger, site, sexy, gratuit, amour, diridarek, homme, mariage" />
+        <link rel="icon" 	 href="{{ asset('bundles/basediridarek/images/favicon.ico') }}" />
+        <meta name="viewport" 	 content="width=device-width, maximum-scale=1"/>
+        <link rel="stylesheet"   media="screen and (max-width:900px)" href="{{ asset('bundles/basediridarek/css/style_small.css') }}"/>
+        <meta name="viewport"    content="width=device-width, maximum-scale=1"/>
+        <title>diridarek.com - Le site de rencontre en Algérie</title>
+        <script>
+            var timer='', timermsg='', hello; 
+            bit       = "<? echo $row['sexe']; ?>"; 
+            sexe      = "<? echo $row['sexe']; ?>";
+            prenom    = "<? echo $row['prenom']; ?>";
+            nom       = "<? echo $row['nom']; ?>";
+            statut    = "<? echo $row['statut']; ?>";
+            naissance = "<? echo $row['naissance']; ?>";
+            ville     = "<? echo $row['ville']; ?>";
+            villeN    = "<? echo $row['villeN']; ?>";
+            fonction  = "<? echo $row['fonction']; ?>";
+            photo     = "<? echo $row['photo']; ?>";
+            id        = "<? echo $row['id']; ?>";
+            idPage    = 10;
+        </script>
+    </head>
+    <body>
+        <div id="fb-root"></div>
+        <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/fr_FR/all.js#xfbml=1";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <div class="bloc_page">
+            <div class="header_bloc">
+            	<header>
+                    <div class="heimo">
+                        <a href="{{ path('base_diridarek_homepage') }}"><img src="{{ asset('bundles/basediridarek/images/logo.png') }}" alt="diridarek.com"/></a>
+                    </div>
+                    <div class="heima">
+                        <a href="{{ path('base_diridarek_homepage') }}"><img src="{{ asset('bundles/basediridarek/images/logo_m.png') }}" alt="diridarek.com"/></a>
+                    </div>		
+                    <nav>
+                    	<ul>
+                            <li><a href="{{ path('base_diridarek_homepage') }}">Accueil</a></li>
+                            <li><a href="../aide/aide.php" target="_blank">Aide</a></li>
+                            <li><a href="{{ path('base_diridarek_profil') }}">Nadir</a></li>
+                            <li><a href="deconnexion.php">Déconnexion</a></li>
+                    	</ul>
+                    </nav>
+            	</header>
+            </div>
+            <div class="bloc_body">
+                <div class="actif">
+                    {# if($row['remarque']=="1"){ #}
+                    <div id="remarque" class="rmaone">
+                        <div class="rmad">
+                            <img src="{{ asset('bundles/basediridarek/images/valid.png') }}" alt="" />
+                            <div class="rmag">
+                                    <h4>Bienvenue !</h4>
+                                    <p>Le site est désormais ouvert 24h/24, 7j/7. On ne ferme plus !</p>
+                            </div>
+                        </div>
+                        <div class="rmae">
+                            <a href="" onclick="return false;"><img id="cbon" alt="" src="{{ asset('bundles/basediridarek/images/Delete-icon.png') }}"></a>
+                        </div>
+                    </div>
+                    {# } #}
+                    <div class="contenera">
+                        <div class="contenere">
+                            <div class="eheader">
+                                <div class="impva">
+                                    <div class="impv">
+                                        <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
+                                    </div>
+                                </div>
+                                <div class="pseu">
+                                    <h3><a href="profil.php">Nadir ALLAM</a></h3>
+                                    <h4><a href="" onClick="document.getElementById('profil').style.display='block';
+                                                            document.getElementById('profili').style.display='block';
+                                                            document.getElementById('enligne').style.display='none'; 
+                                                            document.getElementById('message').style.display='none'; 
+                                                            document.getElementById('visite').style.display='none'; 
+                                                            document.getElementById('demande').style.display='none';
+                                                            suppr(timer);
+                                                            profil(3);
+                                                            return false;">Mon profil</a> <!-- profil(<? echo $row['id']; ?>); -->
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="efooter">
+                                <nav class="efa">
+                                    <ul>
+                                        <li class="info">
+                                            <a class="lienMenu" href="" 
+                                                   onClick="document.getElementById('murr').style.display='none';
+                                                                        document.getElementById('allmessage').style.display='block'; 
+                                                                        document.getElementById('allcontact').style.display='none';
+                                                                        document.getElementById('demande').style.display='none';
+                                                                        document.getElementById('tout').style.display='block';
+                                                                        document.getElementById('enligne').style.display='none';
+                                                                        document.getElementById('ligneee').style.display='none';
+                                                                        document.getElementById('visite') .style.display='none';
+                                                                        document.getElementById('messages').style.display='none';
+                                                                        return false;" id="miss"><img class="icnot" src="{{ asset('bundles/basediridarek/images/icone/mess.png') }}" alt="Messages" />
+                                            <div id="messages" style="display:none"><? echo $nbr2; ?></div>
+                                            <span>Messages ou discussions...</span></a><!-- id="miss" -->
+                                        </li>
+                                        <li class="info">
+                                            <a class="lienMenu" href=""
+                                                   onClick="document.getElementById('tout').style.display='block'; 
+                                                                        document.getElementById('allcontact').style.display='block';
+                                                                        document.getElementById('murr')      .style.display='none';
+                                                                        document.getElementById('allmessage').style.display='none';
+                                                                        document.getElementById('demande')   .style.display='none';
+                                                                        document.getElementById('enligne')   .style.display='none';
+                                                                        document.getElementById('ligneee')   .style.display='none';
+                                                                        document.getElementById('message')   .style.display='none';
+                                                                        document.getElementById('visite')    .style.display='none';
+                                                                        document.getElementById('profil')    .style.display='none';
+                                                                        demand(); 
+                                                                        newrefreshcontact();
+                                                                        suppr(timer);
+                                                                        return false;" id="con"><img class="icnot" src="{{ asset('bundles/basediridarek/images/icone/cont.png') }}" alt="Amis" />
+                                            <div id="contac" style="display:none;">4</div>
+                                            <span>Vos prétendants...</span></a><!-- demand(); newrefreshcontact(); -->
+                                        </li>
+                                        <li class="info">
+                                            <a class="lienMenu" href="" id="demandeG"
+                                                   onClick="document.getElementById('demande').style.display='block';
+                                                                        document.getElementById('ligneee').style.display='block';
+                                                                        document.getElementById('murr')   .style.display='none';
+                                                                        document.getElementById('actu')   .style.display='none';
+                                                                        document.getElementById('enligne').style.display='none';
+                                                                        document.getElementById('message').style.display='none';
+                                                                        document.getElementById('visite') .style.display='none';
+                                                                        document.getElementById('profil') .style.display='none';
+                                                                        document.getElementById('tout')   .style.display='none';
+                                                                        document.getElementById('contgu') .style.display='none';
+                                                                        suppr(timer);
+                                                                        demandes();
+                                                                        return false;"><img class="icnot" src="{{ asset('bundles/basediridarek/images/icone/coeur.png') }}" alt="Demandes" /><!--Demande-->
+                                            <div id="demandes"style="display:none"><? echo $nbr1; ?></div>
+                                            <span>Vous avez des demandes...</span></a> <!-- demandes(); -->
+                                        </li>
+                                        <li class="info">
+                                            <a class="lienMenu" href="" id="visiteG"
+                                                   onClick="document.getElementById('visite') .style.display='block'; 
+                                                                        document.getElementById('ligneee').style.display='block';
+                                                                        document.getElementById('murr')   .style.display='none';
+                                                                        document.getElementById('actu')   .style.display='none';
+                                                                        document.getElementById('enligne').style.display='none';
+                                                                        document.getElementById('message').style.display='none';
+                                                                        document.getElementById('demande').style.display='none';
+                                                                        document.getElementById('profil') .style.display='none';
+                                                                        document.getElementById('tout')   .style.display='none';
+                                                                        document.getElementById('contgu') .style.display='none';
+                                                                        suppr(timer);
+                                                                        visites();
+                                                                        return false;"><img class="icnot" src="{{ asset('bundles/basediridarek/images/icone/vis.png') }}" alt="Visites" />
+                                            <div id="visites"style="display:none;"><? echo $nbr3; ?></div>
+                                            <span>Vous avez de la visite...</span></a><!-- visites(); -->
+                                        </li>
+                                        <li class="info">
+                                            <a class="rechi" id="refresh" href="" 
+                                                   onclick="document.getElementById('message')    .style.display='none'; 
+                                                                        document.getElementById('allmessage') .style.display='none';
+                                                                        document.getElementById('allcontact') .style.display='none'; 
+                                                                        document.getElementById('murr')		  .style.display='block'; 
+                                                                        document.getElementById('enligne')    .style.display='block';
+                                                                        document.getElementById('ligneee')    .style.display='block';
+                                                                        document.getElementById('actu')       .style.display='none';
+                                                                        document.getElementById('demande')    .style.display='none'; 
+                                                                        document.getElementById('visite')     .style.display='none'; 
+                                                                        document.getElementById('profil')     .style.display='none';
+                                                                        document.getElementById('tout')		  .style.display='none';
+                                                                        document.getElementById('contgu')	  .style.display='none';
+                                                                        suppr(timer);
+                                                                        return false;">
+                                            <img class="icnot" src="{{ asset('bundles/basediridarek/images/icone/cher.png') }}" alt="Rechercher" />
+                                            <span>Trouvez plus de personnes...</span></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>				
+                        </div>
+			
+                        <div class="avis">
+                            <form action="" method="">
+                                <label class="garlabi">Un problème, des idées, un avis sur le site ? </label>
+                                <textarea id="feedback" class="textarea" cols="50" rows="10" name="" onfocus="if (this.value=='Donnez votre avis, signalez un problème,...') this.value=''" >Donnez votre avis, signalez un problème,...</textarea>
+                                <input class="ccabirati" id="lolll" type="text" name="mail" value="azerty">
+                                <input class="avios" onclick="return false;" id="subfeedback" type="submit" value="Envoyez">
+                                <div id="feedmerci"></div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="contenerb">
+                        <div class="contdr" id="tout" style="display:none;">
+                            <!-- Contacts -->
+                            <div class="contenerc" id="allcontact">
+                                <div class="dheader">
+                                    <img class="ihed" src="{{ asset('bundles/basediridarek/images/icone/cont_3.png') }}" alt="Amis" /><h2>Contacts</h2>
+                                    <p>Ils peuvent vous parler.</p>
+                                </div>
+                                <div class="mesbody">
+                                    <div class="lodiv">
+                                        <img class="loai" id="contactfriend" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" style="display:none;">
+                                    </div>
+                                    <ul>	
+                                        <div id="lescontactss">
+                                        </div>
+                                        <div id="ajoutContact">
+
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- FinContacts -->
+                            <!-- Message -->
+                            <div class="contenerc" id="allmessage" style="display:none;">
+                                <div class="dheader">
+                                    <img class="ihed" src="{{ asset('bundles/basediridarek/images/icone/mess_3.png') }}" alt="Amis" /> <h2>Messages</h2>
+                                    <p>Espace discussion.</p>
+                                </div>
+                                <div class="mesbody">
+                                    <div class="lodiv">
+                                        <img class="loai" id="loadmessages" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" style="display:none;">
+                                    </div>
+                                    <ul>
+                                        <div id="lesmessages">
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- FinMessages -->							
+                        </div>
+			<div class="conmemb" id="murr">
+                            <div class="contenerd">
+                        	<div class="dheadero">
+                                    <img class="ihed" src="{{ asset('bundles/basediridarek/images/icone/statut.png') }}" alt="Amis" /><h2>Mur</h2>
+                                    <p>Publier une annonce, un message, une recherche de votre amour, ... Soyez sincere honnette et serieux ...</p>
+                                </div>
+                                <div class="avisa">
+                                    <form action="" method="">
+                                        <textarea id="statut" class="textarea" cols="50" rows="10" name="" onfocus="if (this.value=='Écrire un message...') this.value=''" >Écrire un message...</textarea>
+                                        <input class="ccabirati" id="lollll" type="text" name="mail" value="azerty">
+                                        <input class="avios" onclick="return false;" id="substatut" type="submit" value="Publier">
+                                        <div id="statutmerci" style="display:none;"><img class="loai" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}"></div>
+                                    </form>
+                                </div>
+                            </div>
+			</div>
+			<div class="conmemb" id="ligneee">
+                            <!-- Actualites -->
+                            <div class="contenerd" id="actu">
+                        	<div class="dheader">
+                                    <img class="ihed" src="{{ asset('bundles/basediridarek/images/icone/feed.png') }}" alt=""><h2>Actualités</h2>
+                                    <p>Pour ne rien rater.</p>
+                                </div>
+                                <div class="actu">
+                                    <div class="lodiv">
+                                        <img class="loai" id="refreshactu" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" style="display:none;">
+                                    </div>
+                                    <ul>
+                                	<div id="actutu">
+                                	</div>
+                                	
+                                        <li>			
+                                            <img class="achead" src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
+                                            			
+                                            <div class="boactu">
+                                                <div class="foactu">
+                                                    <h3><a href="profil.php?dar=3">Nadir</a></h3>
+                                                    <h4>a modifié sa photo de <a href="profil.php?dar=3">profil</a>.</h4>
+                                                </div>
+                                                <p>Il y a 2 minutes</p>
+                                                <div class="ctuco">
+                                                    <img class="acbody" src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
+                                                    
+                                                </div>
+                                            </div>
+                                        </li>
+                                            
+                                        <div id="suiteActu">	
+                                        </div>
+                                    </ul>
+                                </div>
+                                <div class="dfooter">
+                                    <a href="" onClick="return false;"><div class="plus" id="plus">Plus</div></a>
+                                </div>
+                            </div>
+                            <!-- FinActualite -->
+                            <!-- Ellssontsurlesite -->
+                            <div class="contenerd" id="enligne" style="display:none">
+                        	<div class="dheader">
+                                    <img class="ihed" src="{{ asset('bundles/basediridarek/images/icone/cher_3.png') }}" alt="Amis" /><h2>Membres</h2>
+                                    <p>Les personnes qui sont en ligne.</p>
+                                </div>
+                                <div class="dmem">
+                                    <div class="lodiv">
+                                        <img class="loai" id="membresenligne" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" style="display:none;">
+                                    </div>
+                                    <ul>				
+                                        <div id="ajenligne">
+                                            <li>
+                                                <div class="dpmem">
+                                                    <img class="jdimin" alt="Amis" src="{{ asset('bundles/basediridarek/images/icone/jdide.png') }}">
+                                                    <div class="prlim">
+                                                        <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
+                                                        
+                                                    </div>
+                                                    <div class="dpcomem">
+                                                        <div class="dpconthead">			
+                                                            <h3><div class="limit"><a href="profil.php?dar=3">Nadir</a></div>, 29ans</h3>
+                                                            
+                                                                <h4><img class="stitia" src="{{ asset('bundles/basediridarek/images/off_ligne_woman.png') }}" alt="" title="Hors ligne"/></h4>
+                                                            
+                                                            <p class="stiop"><img class="stitiv" src="{{ asset('bundles/basediridarek/images/situ.png') }}" alt="" />Alger</p>
+                                                        </div>				
+                                                        <div class="dpcontfoot">
+                                                            
+                                                                    <a href="" class="envoee "onClick="return false;"><img class="bou" src="{{ asset('bundles/basediridarek/images/envoie.png') }}" alt="" /> Envoyée</a>
+                                                                
+                                                            <a href="" id="3" class="aa" 
+                                                                                                    name="Nadir"
+                                                                                                    onClick="document.getElementById('message').style.display='block';
+                                                                                                    document.getElementById('contgu').style.display='block'; 
+                                                                                                    document.getElementById('enligne').style.display='none'; 
+                                                                                                    document.getElementById('profil').style.display='none'; 
+                                                                                                    document.getElementById('visite').style.display='none'; 
+                                                                                                    document.getElementById('demande').style.display='none';
+                                                                                                    document.getElementById('ligneee').style.display='none'; 
+                                                                                                    afficheMsg(); 
+                                                                                                    return false;"><img class="bou" src="{{ asset('bundles/basediridarek/images/mes.png') }}" alt="" />  Message</a>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </div>
+                                        <div id="ajaxenligne">
+                                        </div>	
+                                        {% for i in 0..3 %}
+                                        <li>
+                                            <div class="dprofil">
+                                                <img src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" /> 
+                                                <div class="dpcont">
+                                                    <div class="dpconthead">
+                                                        <h3>Zinedine Zidane</h3>
+                                                        <a href="#" onClick="return false;">En ligne</a>
+                                                        <p>23ans, Alger</p>
+                                                    </div>
+                                                    <p class="inpros">L'Open data, la ministre de la Santé n'en veut pas, une tribune</p>
+                                                    <p class="inpro">Derniere connexion : Le Mardi, 23 Septembre 2013</p>
+                                                    <div class="dpcontfoot">
+                                                        <a href="#" onClick="return false;">Demander</a> 
+                                                        <a href="#" onClick="return false;">Message</a> 
+                                                        <a href="#" onClick="return false;">Profil</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        {% endfor %} 
+                                    </ul>		
+                                </div>
+                                <div class="pagina">
+                                    <a href='#'>1</a>
+                                </div>
+                            </div>
+                            <!-- FinEllssontsurlesite -->
+                            <!-- Demande -->
+                            <div class="contenerd" id="demande" style="display:none;">
+                                <div class="dheader">
+                                    <img class="ihed" src="{{ asset('bundles/basediridarek/images/icone/coeur_3.png') }}" alt="Amis" /><h2>Demandes</h2>
+                                    <p>Les membres qui vous ont envoyé une demande pour vous parler.</p>
+                                </div>
+				<div class="mesbody">
+                                    <div class="lodiv">
+                                        <img class="loai" id="demandeload" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" style="display:none;">
+                                    </div>
+                                    <ul>		
+                                        <div class="idvit" style="display:block" id="dimo">
+                                            <p>Vous n'avez pas de demande.</p>
+                                        </div>				
+                                        <div id="dimane">
+                                            <li>
+                                                <div class="dprofil">
+                                                    <div class="imdpo">
+                                                        <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
+                                                    </div>
+                                                    <div class="dpcont">
+                                                        <div class="dpconthead">
+                                                            <h5>Nadir ALLAM</h5>
+                                                            <p class="stiop">29ans, Alger</p>
+                                                            
+                                                        </div>
+                                                        <p class="inpros">Salam</p>
+                                                        <p class="inpro">Derniere connexion : 2015-05-15</p>
+                                                        <div class="dptfoot"> 
+                                                            <a href="" id="3" class="nonami" onClick="return false;">Refuser</a> 
+                                                            <a href="" id="3" class="ouiami" onClick="return false;">Accepter</a> 
+                                                            <a href="" onClick="document.getElementById('message').style.display='block'; 
+                                                                                document.getElementById('enligne').style.display='none'; 
+                                                                                document.getElementById('profil').style.display='none'; 
+                                                                                document.getElementById('visite').style.display='none'; 
+                                                                                document.getElementById('demande').style.display='none'; 
+                                                                                refreshmsg(3,'Nadir','1'); 
+                                                                                return false;">Message</a>
+                                                            <a href="" onClick="document.getElementById('profil').style.display='block'; 
+                                                                                document.getElementById('enligne').style.display='none'; 
+                                                                                document.getElementById('message').style.display='none'; 
+                                                                                document.getElementById('visite').style.display='none'; 
+                                                                                document.getElementById('demande').style.display='none'; 
+                                                                                profil(3);
+                                                                                return false;">Profil</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        <? } ?>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- FinDemande -->
+                            <!-- Visites -->
+                            <div class="contenerd" id="visite" style="display:none;">
+                                <div class="dheader">
+                                    <img class="ihed" src="{{ asset('bundles/basediridarek/images/icone/vis_3.png') }}" alt="Amis" /><h2>Visites</h2>
+                                    <p>Les membres qui ont visité votre profil.</p>
+                                </div>
+                                <div class="mesbody"> 
+                                    <div class="lodiv">
+                                        <img class="loai" id="visiteload" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" style="display:none;">
+                                    </div>
+                                    <ul>
+					<div class="idvit" id="pasdevisite" style="display:none;">
+                                            <p>Vous n'avez pas de visite.</p>
+                                        </div>
+                                        <div id="visitesss">
+                                            <li>
+                                                <div class="dprofil">
+                                                    <div class="imdpo">
+                                                        <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
+                                                        				
+                                                    </div>
+                                                    <div class="dpcont">
+                                                        <div class="dpconthead">
+                                                            <h5>Nadir ALLAM</h5>
+                                                            
+                                                            <p>29ans, Alger</p>
+                                                        </div>
+                                                        <p class="inpros">En ligne</p>
+                                                        <p class="inpro">Derniere connexion : Le Mardi, 23 Septembre 2013</p>
+                                                        <div class="dptfoot">
+                                                            <a href="" id="3" class="demandi" onClick="return false;">Demander</a> 
+                                                            <a href="" onClick="document.getElementById('message').style.display='block'; 
+                                                                                document.getElementById('enligne').style.display='none'; 
+                                                                                document.getElementById('profil').style.display='none'; 
+                                                                                document.getElementById('visite').style.display='none'; 
+                                                                                document.getElementById('demande').style.display='none'; 
+                                                                                refreshmsg(3,'3','1');
+                                                                                return false;">Message</a>
+                                                            <a href="" id="3" onClick="document.getElementById('profil').style.display='block'; 
+                                                                                                                  document.getElementById('enligne').style.display='none'; 
+                                                                                                                document.getElementById('message').style.display='none'; 
+                                                                                                                  document.getElementById('visite').style.display='none'; 
+                                                                                                                    document.getElementById('demande').style.display='none'; 
+                                                                                                                  profil(3);
+                                                                                                                  return false;">Profil</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="dpcontfoot">
+                                                    <a href="" id="3" class="demandi" onClick="return false;">Demander</a> 
+                                                    <a href="" onClick="document.getElementById('message').style.display='block'; 
+                                                                                document.getElementById('enligne').style.display='none'; 
+                                                                                document.getElementById('profil').style.display='none'; 
+                                                                                document.getElementById('visite').style.display='none'; 
+                                                                                document.getElementById('demande').style.display='none'; 
+                                                                                refreshmsg(3); 
+                                                                                return false;">Message</a>
+                                                    <a href="" id="3" onClick="document.getElementById('profil').style.display='block'; 
+                                                                                                            document.getElementById('enligne').style.display='none'; 
+                                                                                                            document.getElementById('message').style.display='none'; 
+                                                                                                            document.getElementById('visite').style.display='none'; 
+                                                                                                            document.getElementById('demande').style.display='none'; 
+                                                                                                            profil(3);
+                                                                                                            return false;">Profil</a> 
+                                                    <a href="#" onClick="return false;">Reserver</a>
+                                                </div>
+                                            </li>
+                                        </div>
+                                        <div id="visitess">
+                                        </div>
+                                    </ul>
+				</div>
+                            </div>
+                            <!-- FinVisite -->
+                        </div>
+			<div class="contgu" id="contgu" style="display:none;">
+                            <!-- Messages -->
+                            <div class="contenerd" id="message" style="display:none;">
+                                <div class="dheader">
+                                    <h2><div id="pseud"><!-- Zinedine Zidane --></div></h2>
+                                </div>
+                                <div class="dbody">
+                                    <div class="lodiv">
+                                        <img class="loai" id="loadmsg" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" style="display:none;">
+                                    </div>
+                                    <div class="litoi" id="msgajax"></div>
+                                    <div id="scroooll"></div>
+                                </div>
+                                <div class="enout">
+                                    <div class="envmes">
+                                        <div class="envhead">
+                                            <textarea class="envchat" id="boxMessage" rows="3"></textarea>
+                                        </div>
+                                        <div class="envfoot">
+                                            <div class="boutmes">
+                                                <div id="butum"><input class="formes" id="sendMessage" type="button" value="Répondre" name="valider"></div>
+                                                <img class="loai" id="messagesend" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" alt="" style="display:none;" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FinMessages -->
+                            <!-- Profil -->
+                            <div class="contenerd" id="profil" style="display:none;">
+                                <div class="dheader">
+                                    <h2>Profil</h2>
+                                </div>
+                                <div class="dbody">
+                                    <div class="lodiv">
+                                        <img class="loai" id="profilload" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}" style="display:none;">
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <div id="profili">
+                                                <div class="dphome">
+                                                    <img src="{{ asset('bundles/basediridarek/images/saddam.jpg') }}" alt="" /> 
+                                                </div>
+                                                <div class="dprofil">
+                                                    <div class="imdpo">
+                                                        <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
+                                                         
+                                                    </div>
+                                                    <div class="dpcont">
+                                                        <div class="dpconthead">
+                                                            <h3>Nadir</h3>
+                                                            <h4><a href="#" onClick="return false;">En ligne</a></h4>
+                                                            <p>23ans, Alger</p>
+                                                        </div>
+                                                        <p class="inpros">En ligne</p>
+                                                        <p class="inpro">Derniere connexion : Le Mardi, 23 Septembre 2013</p>
+                                                        <div class="dpcontfoot">
+                                                            <a href="#" onClick="return false;">Détail</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="fheader">
+                                                    <div class="fhheader">
+                                                    </div>			
+                                                </div>
+                                            <div class="formb">
+                                                <input class="forpro" type="submit" value="Demander" name="valider">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="asiode">
+            <p>Invitez vos amis à rejoindre la communauté "diridarek" ! recommandez-nous.</p>
+            <div class="avics">
+                <div class="fb-like" data-href="{{ path('base_diridarek_homepage') }}" data-layout="standard" data-action="recommend" data-show-faces="true" data-share="true"></div>
+            </div>
+        </div>
+        <div class="footer_bloc">	
+            <footer>
+                <p>© 2014 diridarek.com</p>
+            </footer>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('bundles/basediridarek/js/prototype.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/basediridarek/js/accueil.js') }}"></script>
+        <audio preload="auto" id="sonson">
+            <source src="{{ asset('bundles/basediridarek/son/beep.mp3') }}" type="audio/mp3">
+            <source src="{{ asset('bundles/basediridarek/son/beep.ogg') }}" type="audio/ogg">
+        </audio>
+    </body>
+</html>

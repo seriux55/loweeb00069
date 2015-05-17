@@ -1,3 +1,15 @@
 base_diridarek_homepage:
     path:     /
     defaults: { _controller: BaseDiridarekBundle:Default:index }
+
+base_diridarek_accueil:
+    path:     /fr/
+    defaults: { _controller: BaseDiridarekBundle:Default:accueil }
+    
+base_diridarek_profil:
+    path:     /fr/profil/
+    defaults: { _controller: BaseDiridarekBundle:Default:profil }
+
+base_diridarek_aide:
+    path:     /fr/aide/
+    defaults: { _controller: BaseDiridarekBundle:Default:aide }

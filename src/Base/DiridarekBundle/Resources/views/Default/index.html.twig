@@ -16,24 +16,13 @@
                 </div>
                 <div class="idencontb">
                     <div class="idenconte">
-                        <form action="#" method="post">
-                            <div class="forma">
-                                <label class="garlabi">Ton email</label>
-                                <input class="forput" type="text" name="maill" placeholder="ex : khaled.feniche@gmail.com" value="">
-                            </div>
-                            <div class="forma">
-                                <label class="garlabi">Mot de passe</label>
-                                <input class="forput" type="password" size="35" name="passwordd">
-                            </div>
-                            <div class="formb">
-                                <input class="forbo" type="submit" value="Se connecter" name="valider">
-                            </div>
-                        </form>
+                        {{ render(controller('BaseUserBundle:Security:login')) }}
                     </div>
                     <div class="idenconte">
                         <div class="identi">
                             <h2><strong>Nouveau ?</strong> Inscrivez-vous</h2>
                         </div>
+                        <!--
                         <form  class="idente" action="#" method="post" id="inscription">
                             <div class="forma">
                                 <label class="garlabi">Prénom</label>
@@ -64,7 +53,7 @@
                             <div class="forma">
                                 <label class="garlabi">Ton email</label>
                                 <input class="forput" type="text" name="mail" placeholder="ex : khaled.feniche@gmail.com" id="mail" value="">
-                                                                                                                    </div>
+                            </div>
                             <div class="forma">
                                 <label class="garlabi">Mot de passe</label>
                                 <input class="forput" type="password" size="35" name="password" id="password">
@@ -77,12 +66,73 @@
                                 <input class="forbo" type="submit" value="S'inscrire" name="valider">
                             </div>
                         </form>
+                        -->
+                        
+                        {#
+                        {% trans_default_domain 'FOSUserBundle' %}
+                        <form action="" method="POST" class="fos_user_registration_register">
+                            {{ form_errors(form) }}
+                            <div class="forma">
+                                {{ form_label(form.gender, " ") }}
+                                {{ form_errors(form.gender) }}
+                                {{ form_widget(form.gender) }}
+                            </div>
+                            <div class="forma">
+                                {{ form_label(form.firstname, "Nom") }}
+                                {{ form_errors(form.firstname) }}
+                                {{ form_widget(form.firstname, { 'attr' : { 'class' : 'forput' } }) }}
+                            </div>
+                            <div class="forma">
+                                {{ form_label(form.secondename, "Prénom") }}
+                                {{ form_errors(form.secondename) }}
+                                {{ form_widget(form.secondename, { 'attr' : { 'class' : 'forput' } }) }}
+                            </div>
+                            <div class="forma">
+                                {{ form_label(form.born, "Année de naissance") }}
+                                {{ form_errors(form.born) }}
+                                {{ form_widget(form.born, { 'attr' : { 'class' : 'forput' } }) }}
+                            </div>
+                            <div class="forma">
+                                {{ form_label(form.phone, "Téléphone") }}
+                                {{ form_errors(form.phone) }}
+                                {{ form_widget(form.phone, { 'attr' : { 'class' : 'forput' } }) }}
+                            </div>
+                            <div class="forma">
+                                {{ form_label(form.email, "Adresse mail") }}
+                                {{ form_errors(form.email) }}
+                                {{ form_widget(form.email, { 'attr' : { 'class' : 'forput' } }) }}
+                            </div>
+                            <div class="forma">
+                                {{ form_label(form.plainPassword.first, "Mot de passe ") }}
+                                {{ form_errors(form.plainPassword.first) }}
+                                {{ form_widget(form.plainPassword.first, { 'attr' : { 'class' : 'forput' } }) }}
+                            </div>
+                            <div class="forma">
+                                {{ form_label(form.plainPassword.second, "Confirmez le mot de passe ") }}
+                                {{ form_errors(form.plainPassword.second) }}
+                                {{ form_widget(form.plainPassword.second, { 'attr' : { 'class' : 'forput' } }) }}
+                            </div>   
+                            {{ form_rest(form) }}
+                            <div class="forma">
+                                <input class="forbo" type="submit" value="{{ 'registration.submit'|trans }}" />
+                            </div>
+                        </form>
+                        #}
+                        <div>
+                            <form action="{{ path('base_diridarek_homepage') }}" method="post" {{ form_enctype(form) }}>
+                                {{ form_widget(form) }}
+                            </form>
+                        </div>
+                        
+                        
+                        
+                        {# {{ render(controller('BaseUserBundle:Registration:register')) }} #}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>	
+</div>
 <!--
 <div class="vitrine">
     <img src="../images/vitrine.png" alt="diridarek.com" />
