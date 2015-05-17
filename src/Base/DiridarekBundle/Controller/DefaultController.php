@@ -78,4 +78,9 @@ class DefaultController extends Controller
     {
         return $this->render('BaseDiridarekBundle:Default:aide.html.twig');
     }
+    
+    public function welcomeAction()
+    {
+        return $this->render('BaseDiridarekBundle:Default:welcome.html.twig');
+    }
 }

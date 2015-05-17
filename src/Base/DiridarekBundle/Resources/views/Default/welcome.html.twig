@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8"/>
+        <link rel="stylesheet" href="{{ asset('bundles/basediridarek/css/style.css') }}"/>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ asset('bundles/basediridarek/js/prototype.js') }}"></script>
+        <!--[if lt IE 9]
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js></script>
+        <![endif]-->
+        <meta name="Description" content="diridarek.com - Ne l'attendez plus, venez le prendre! DIRIDAREK! Le site de rencontre en Algérie" /> 
+        <meta name="Keywords" 	 content="rencontre, algerie, tchat, fille, algérie, femme, halal, alger, site, sexy, gratuit, amour, diridarek, homme, mariage" />
+        <link rel="icon"         href="{{ asset('bundles/basediridarek/images/favicon.ico') }}" />
+        <meta name="viewport" 	 content="width=device-width, maximum-scale=1"/>
+        <link rel="stylesheet"   media="screen and (max-width:900px)" href="{{ asset('bundles/basediridarek/css/style_small.css') }}"/>
+        <meta name="viewport"    content="width=device-width, maximum-scale=1"/>
+        <title>diridarek.com - Le site de rencontre en Algérie</title>
+    </head>
+    <body>
+        <div id="fb-root"></div>
+        <div class="bloc_page">
+            <div class="header_bloc">
+            	<header>
+                    <div class="heimo">
+                        <a href="{{ path('base_diridarek_homepage') }}">
+                            <img src="{{ asset('bundles/basediridarek/images/logo.png') }}" alt="diridarek.com"/>
+                        </a>
+                    </div>
+                    <div class="heima">
+                        <a href="{{ path('base_diridarek_homepage') }}">
+                            <img src="{{ asset('bundles/basediridarek/images/logo_m.png') }}" alt="diridarek.com"/>
+                        </a>
+                    </div>
+                    <nav>
+                        <ul>
+                            <li><a href="{{ path('base_diridarek_homepage') }}">Accueil</a></li>
+                            <li><a href="../aide/aide.php" target="_blank">Aide</a></li>
+                            <li><a href="profil.php">{{ app.user.secondename }}</a></li>
+                            <li><a href="deconnexion.php">Déconnexion</a></li>
+                        </ul>
+                    </nav>
+            	</header>
+            </div>	
+            <div class="bloc_body">
+		<div class="actif">
+                    <h1>{{ app.user.secondename }}, bienvenue chez diridarek.com !</h1>
+                    <h6>Le 1er site de rencontre en Algérie.</h6>
+                    <h2>Voilà comment ça marche</h2>
+                    <div class="bloai">
+                        <div class="bodaide" id="first">
+                            <div class="heaaide">
+                                <div class="heaaa">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                            </div>
+                            <div class="phaide">
+                                <h3>Ne l'attendez plus, venez le prendre!</h3>
+                                <p>diridarek.com, c'est le nouveau concept de rencontres sérieuses ! Pour trouver sa moitié.</p>
+
+                                <div class="phoaid">
+                                    <img class="phob" src="{{ asset('bundles/basediridarek/images/presentation/membre.png') }}" alt="diridarek.com"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bodaide" id="seconde" style="display:none">
+                            <div class="heaaide">
+                                <div class="heaab">
+                                </div>
+                                <div class="heaaa">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                            </div>
+                            <div class="phaide">
+                                <h3>Ici, c'est les femmes qui décident !</h3>
+                                <p>Pour discuter avec elle, il faut d'abord faire une demande et attendre jusqu'à ce qu'elle accepte!</p>
+                                <div class="phoaid">
+                                    <img class="phoc" src="{{ asset('bundles/basediridarek/images/presentation/ng.jpg') }}" alt="diridarek.com"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bodaide" id="third" style="display:none">
+                            <div class="heaaide">
+                                <div class="heaab">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                                <div class="heaaa">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                            </div>
+                            <div class="phaide">
+                                <h3>Les femmes ont tous les pouvoirs !</h3>
+                                <p>Elles n'ont pas besoin d'envoyer des demandes pour discuter.</p>
+                                <div class="phoaid">
+                                    <img class="phod" src="{{ asset('bundles/basediridarek/images/presentation/dicaprio.jpg') }}" alt="diridarek.com"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bodaide" id="foorth" style="display:none">
+                            <div class="heaaide">
+                                <div class="heaab">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                                <div class="heaab">
+                                </div>
+                                <div class="heaaa">
+                                </div>
+                            </div>
+                            <div class="phaide">
+                                <h3>C'est tout !</h3>
+                                <p>Et pour finir, restez sage !!! Mouuuuuah ! Boussa. </p>
+                                <div class="phoaid">
+                                    <img class="phoc" src="{{ asset('bundles/basediridarek/images/presentation/boussa.jpg') }}" alt="diridarek.com"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feeaide">
+                            <div class="aidebout" id="bouton1" onclick="document.getElementById('first').style.display='none';
+                                                                        document.getElementById('seconde').style.display='inline-block';
+                                                                        document.getElementById('bouton1').style.display='none';
+                                                                        document.getElementById('bouton2').style.display='inline-block';">
+                                Suivant
+                            </div>
+                            <div class="aidebout" id="bouton2" style="display:none" onclick="document.getElementById('seconde').style.display='none';
+                                                                                            document.getElementById('third').style.display='inline-block';
+                                                                                            document.getElementById('bouton2').style.display='none';
+                                                                                            document.getElementById('bouton3').style.display='inline-block';">
+                                Suivant
+                            </div>
+                            <div class="aidebout" id="bouton3" style="display:none" onclick="document.getElementById('third').style.display='none';
+                                                                                            document.getElementById('foorth').style.display='inline-block';
+                                                                                            document.getElementById('bouton3').style.display='none';
+                                                                                            document.getElementById('bouton4').style.display='inline-block';">
+                                Suivant
+                            </div>
+                            <div class="aidebout" id="bouton4" style="display:none">
+                                <a href="{{ path('base_diridarek_accueil') }}">Accéder au site</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="asiode">
+                <p>Invitez vos amis à rejoindre la communauté "diridarek" ! recommandez-nous.</p>
+                <div class="avics">
+                    <div class="fb-like" data-href="{{ path('base_diridarek_homepage') }}" 
+                         data-layout="standard" data-action="recommend" data-show-faces="true" data-share="true">
+                    </div>
+                </div>
+                <div class="phoaid">
+                    <img class="phoa" src="{{ asset('bundles/basediridarek/images/presentation/cou.png') }}" alt="diridarek.com"/>
+                </div>
+            </div>
+            <div class="footer_bloc">	
+                <footer>
+                    <p>© 2014 diridarek.com</p>
+                </footer>
+            </div>
+        </div>
+    </body>
+</html>

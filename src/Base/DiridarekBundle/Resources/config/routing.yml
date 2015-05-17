@@ -9,6 +9,10 @@ base_diridarek_accueil:
 base_diridarek_profil:
     path:     /fr/profil/
     defaults: { _controller: BaseDiridarekBundle:Default:profil }
+    
+base_diridarek_bienvenue:
+    path:     /fr/welcome/
+    defaults: { _controller: BaseDiridarekBundle:Default:welcome }
 
 base_diridarek_aide:
     path:     /fr/aide/

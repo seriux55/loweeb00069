@@ -197,7 +197,7 @@
                         <div class="avis">
                             <form action="" method="">
                                 <label class="garlabi">Un problème, des idées, un avis sur le site ? </label>
-                                <textarea id="feedback" class="textarea" cols="50" rows="10" name="" onfocus="if (this.value=='Donnez votre avis, signalez un problème,...') this.value=''" >Donnez votre avis, signalez un problème,...</textarea>
+                                <textarea id="feedback" class="textarea" cols="50" rows="10" name="" onfocus="if (this.value==='Donnez votre avis, signalez un problème,...') this.value='' " >Donnez votre avis, signalez un problème,...</textarea>
                                 <input class="ccabirati" id="lolll" type="text" name="mail" value="azerty">
                                 <input class="avios" onclick="return false;" id="subfeedback" type="submit" value="Envoyez">
                                 <div id="feedmerci"></div>
@@ -252,7 +252,7 @@
                                 </div>
                                 <div class="avisa">
                                     <form action="" method="">
-                                        <textarea id="statut" class="textarea" cols="50" rows="10" name="" onfocus="if (this.value=='Écrire un message...') this.value=''" >Écrire un message...</textarea>
+                                        <textarea id="statut" class="textarea" cols="50" rows="10" name="" onfocus="if (this.value==='Écrire un message...') this.value='' " >Écrire un message...</textarea>
                                         <input class="ccabirati" id="lollll" type="text" name="mail" value="azerty">
                                         <input class="avios" onclick="return false;" id="substatut" type="submit" value="Publier">
                                         <div id="statutmerci" style="display:none;"><img class="loai" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}"></div>
@@ -599,6 +599,8 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="{{ asset('bundles/basediridarek/js/prototype.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/basediridarek/js/accueil.js') }}"></script>
+        <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
         <audio preload="auto" id="sonson">
             <source src="{{ asset('bundles/basediridarek/son/beep.mp3') }}" type="audio/mp3">
             <source src="{{ asset('bundles/basediridarek/son/beep.ogg') }}" type="audio/ogg">

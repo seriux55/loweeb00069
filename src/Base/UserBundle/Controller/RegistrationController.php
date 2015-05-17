@@ -138,7 +138,7 @@ class RegistrationController extends Controller
             throw new AccessDeniedException('This user does not have access to this section.');
         }
 
-        return new RedirectResponse($this->generateUrl('base_diridarek_accueil'));
+        return new RedirectResponse($this->generateUrl('base_diridarek_bienvenue'));
         /*
         return $this->render('FOSUserBundle:Registration:confirmed.html.twig', array(
             'user' => $user,

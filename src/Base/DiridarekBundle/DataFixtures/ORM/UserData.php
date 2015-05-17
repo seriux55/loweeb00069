@@ -1,6 +1,6 @@
 <?php
 
-namespace Base\NrohoBundle\DataFixtures\ORM;
+namespace Base\DiridarekBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
