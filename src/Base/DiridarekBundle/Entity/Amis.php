@@ -22,6 +22,16 @@ class Amis
     private $id;
     
     /**
+     * Le constructeur
+     */
+    public function __construct()
+    {
+        $this->fin      = new \Datetime();
+        $this->vue      = "0";
+        $this->dateTime = new \Datetime();
+    }
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Base\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -110,7 +120,7 @@ class Amis
      */
     public function setUserReceive(\Base\UserBundle\Entity\User $user_receive)
     {
-        $this->user_accepte = $user_receive;
+        $this->user_receive = $user_receive;
 
         return $this;
     }

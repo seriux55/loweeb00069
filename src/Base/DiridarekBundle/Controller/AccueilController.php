@@ -2,73 +2,105 @@
 
 namespace Base\DiridarekBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+
 class AccueilController extends Controller
 {
-    public function newsAction()
+    /*
+     *  La fonction qui affiche la suite de la liste d'actualite
+     */
+    public function newsAction(Request $request, $pg=0)
     {
-        if(isset($_SESSION) && isset($_SESSION['mail']) && isset($_SESSION['mdp']) && !empty($_SESSION['mail']) && !empty($_SESSION['mdp']) && isset($_SESSION['id']) && !empty($_SESSION['id']) && $_SESSION['id']>=1){
-	
-            
+        if ($request->isXmlHttpRequest())
+        {
             $actu = array();
-            $pg  = $_POST['pg'];
-            $sql = "SELECT actu.id,actu.id_compte,actu.type,actu.album,actu.photo_H,actu.depot,actu.profil,actu.profil,compte.prenom,compte.sexe,actu.describ_H,actu.search_H,compte.photo1,compte.photo2,compte.photo3,compte.photo4,actu.statut_H,compte.naissance FROM actu JOIN compte ON actu.id_compte=compte.id ORDER BY actu.id DESC LIMIT $pg,10 ";
-            $req = mysqli_query($db, $sql) or die ('lol'.mysqli_error($db));
-
-            while($lig = @mysqli_fetch_assoc($req)){
-                    $actu[] = array(
-                'id'        	=> $lig['id'],
-                'id_compte' 	=> $lig['id_compte'],
-                'type'      	=> $lig['type'],
-                'description'	=> utf8_encode($lig['describ_H']),
-                'album'     	=> $lig['album'],
-                'depot'     	=> $lig['depot'],
-                'prenom'		=> utf8_encode($lig['prenom']),
-                'sexe'			=> $lig['sexe'],
-                'recherche'		=> utf8_encode($lig['search_H']),
-                'naissance'		=> $lig['naissance'],
-                'photo'			=> $lig['profil'],
-                'photo1'		=> $lig['photo1'],
-                'photo2'		=> $lig['photo2'],
-                'photo3'		=> $lig['photo3'],
-                'photo4'		=> $lig['photo4'],
-                'statut'		=> utf8_encode($lig['statut_H']),
-                'photo_album'	=> $lig['photo_H']
-                    );
+            $pg   = $request->request->get('pg');
+            $news = $this->getDoctrine()->getRepository('BaseDiridarekBundle:News')
+                ->createQueryBuilder('a')
+                ->addSelect('b')
+                ->leftJoin('a.user', 'b')
+                ->orderBy('a.id','DESC')
+                ->getQuery()
+                ->getResult();
+            foreach ($news as $data)
+            {
+                $actu[] = array(
+                    'id'            => $data->getId(),
+                    'id_compte'     => $data->getUser()->getId(),
+                    'type'          => $data->getType(),
+                    'description'   => $data->getDescribH(),
+                    'album'         => $data->getAlbumH(),
+                    'depot'         => $data->getDateTime(),
+                    'prenom'        => $data->getUser()->getSecondename(),
+                    'sexe'          => $data->getUser()->getGender(),
+                    'recherche'     => $data->getSearchH(),
+                    'naissance'     => $data->getUser()->getBorn(),
+                    'photo'         => "",
+                    'photo2'        => "",
+                    'photo3'        => "",
+                    'photo4'        => "",
+                    'statut'        => $data->getStatutH(),
+                    'photo_album'   => $data->getPhotoH(),
+                );
             }
-                @mysqli_free_result($req);
-                
-            die($_GET['callback'].'('.json_encode($actu).')');	
+            return $this->container->get('templating')->renderResponse('BaseDiridarekBundle:Accueil:news.html.twig', array(
+                'news' => $actu,
+            ));
         }
     }
     
-    public function contactsAction()
+    /*
+     *  La fonction qui affiche la liste des contacts //new
+     */
+    public function contactsAction(Request $request)
     {
-        if(isset($_SESSION) && isset($_SESSION['mail']) && isset($_SESSION['mdp']) && !empty($_SESSION['mail']) && !empty($_SESSION['mdp']) && isset($_SESSION['id']) && !empty($_SESSION['id']) && $_SESSION['id']>=1){
-	
-                        $contact = array();
-                        $sqlcont = "SELECT id_compte_demande,id_compte_accepte FROM amis WHERE (id_compte_demande='".$_SESSION['id']."' OR id_compte_accepte='".$_SESSION['id']."') AND etat='1' ORDER BY id DESC";
-                        $reqcont = @mysqli_query($db, $sqlcont);
-
-                        while($d = @mysqli_fetch_assoc($reqcont)){
-                            if($d['id_compte_demande']==$_SESSION['id']) $amis=$d['id_compte_accepte']; else if($d['id_compte_accepte']==$_SESSION['id']) $amis=$d['id_compte_demande'];
-                            $sqlamis = "SELECT id,prenom,nom,sexe,last_connexion,photo FROM compte WHERE id='$amis' LIMIT 1";
-                            $reqamis = @mysqli_query($db, $sqlamis);
-                            $ligamis = @mysqli_fetch_assoc($reqamis);
-                            $contact[] = array(
-                                                        'session' => $_SESSION['id'],
-                                'id'      => $ligamis['id'],
-                                                        'prenom'  => utf8_encode($ligamis['prenom']),
-                                                        'nom'	  => utf8_encode($ligamis['nom']),
-                                                        'sexe'    => $ligamis['sexe'],
-                                                        'photo'   => $ligamis['photo'],
-                                                        'last'    => $ligamis['last_connexion']
-                            );
-                            @array_multisort($ligamis['last_connexion'], SORT_DESC, SORT_STRING);
-                        }
-                @mysqli_free_result($reqamis);
-                @mysqli_free_result($reqcont);
-                die($_GET['callback'].'('.json_encode($contact).')');
-                
+        if ($request->isXmlHttpRequest())
+        {
+            $contacts = array();
+            $id       = $this->container->get('security.context')->getToken()->getUser()->getId();
+            $contact  = $this->getDoctrine()->getRepository('BaseDiridarekBundle:Amis')
+                ->createQueryBuilder('a')
+                ->addSelect('b')
+                ->leftJoin('a.user_sent', 'b')
+                ->addSelect('c')
+                ->leftJoin('a.user_receive', 'c')
+                ->where('a.user_sent = :id OR a.user_receive = :id')
+                ->andWhere('a.etat = 1')
+                ->setParameter('id', $id)
+                ->orderBy('a.id','DESC')
+                ->getQuery()
+                ->getResult();
+            foreach($contact as $data){
+                if($data->getUserSent()->getId() == $id){
+                    $contacts[] = array(
+                        'session' => $id,
+                        'id'      => $data->getUserReceive()->getId(),
+                        'prenom'  => $data->getUserReceive()->getSecondename(),
+                        'nom'     => $data->getUserReceive()->getFirstname(),
+                        'sexe'    => $data->getUserReceive()->getGender(),
+                        'photo'   => "",
+                        'last'    => $data->getUserReceive()->getLastConnexion(),
+                    );
+                }else{
+                    $contacts[] = array(
+                        'session' => $id,
+                        'id'      => $data->getUserSent()->getId(),
+                        'prenom'  => $data->getUserSent()->getSecondename(),
+                        'nom'     => $data->getUserSent()->getFirstname(),
+                        'sexe'    => $data->getUserSent()->getGender(),
+                        'photo'   => "",
+                        'last'    => $data->getUserSent()->getLastConnexion(),
+                    );
+                }
+            }
+            //array_multisort($contacts['last'], SORT_DESC, SORT_STRING);
+            return $this->container->get('templating')->renderResponse('BaseDiridarekBundle:Accueil:contacts.html.twig', array(
+                'contacts' => $contacts,
+            ));
         }
     }
     
@@ -132,28 +164,23 @@ class AccueilController extends Controller
         }
     }
     
-    public function enLigneAction()
+    public function enLigneAction(Request $request)
     {
-        if(isset($_SESSION) && isset($_SESSION['mail']) && isset($_SESSION['mdp']) && !empty($_SESSION['mail']) && !empty($_SESSION['mdp']) && isset($_SESSION['id']) && !empty($_SESSION['id']) && $_SESSION['id']>=1){
-	
-                
-                $sqlsession = "SELECT id FROM compte WHERE mail='".$_SESSION['mail']."' AND mdp='".$_SESSION['mdp']."' AND id='".$_SESSION['id']."' LIMIT 1";
-                $reqsession = @mysqli_query($db,$sqlsession);
-                $nbrsession = @mysqli_num_rows($reqsession);
-                if($nbrsession == 1){
-
-                        $ip  = $_SERVER['REMOTE_ADDR'];		
-                        $now = date('Y-m-d H:i:s');
-                        $sql = "UPDATE compte SET last_connexion='$now', ip='$ip' WHERE id='".intval($_SESSION['id'])."' LIMIT 1";
-                        $req = @mysqli_query($db, $sql);
-                        @mysqli_free_result($req);
-                        @mysqli_free_result($reqsession);
-                        
-                        $_SESSION['last_connexion'] = $now;
-                        if($req){ 
-                            echo 'ok'; 
-                        }
-                }
+        if ($request->isXmlHttpRequest())
+        {
+            $id = $this->container->get('security.context')->getToken()->getUser()->getId();
+            $ip = $request->getClientIp();
+            $now = date('Y-m-d H:i:s');
+            $update = $this->get('doctrine')->getManager()
+                ->createQueryBuilder('a')
+                ->update('BaseUserBundle:User', 'a')
+                ->set('a.lastConnexion', "'".date('Y-m-d H:i:s')."'")
+                ->where("a.id = :id")
+                ->setParameter(':id', $id)
+                ->getQuery()
+                ->execute();
+            $response = new JsonResponse();
+            return $response->setData(array('data' => 'yes'));
         }
     }
     
@@ -235,122 +262,140 @@ class AccueilController extends Controller
         }
     }
     
-    public function getMAAction()
+    public function getMAAction(Request $request)
     {
-        if(isset($_SESSION) && isset($_SESSION['mail']) && isset($_SESSION['mdp']) && !empty($_SESSION['mail']) && !empty($_SESSION['mdp']) && isset($_SESSION['id']) && !empty($_SESSION['id']) && $_SESSION['id']>=1){
-	
-            $mes  = array();
-            $sql1 = "SELECT id FROM demande WHERE id_dest  ='".$_SESSION['id']."' AND etat='2' ORDER BY etat DESC LIMIT 15";
-            $sql3 = "SELECT id FROM visite  WHERE id_compte='".$_SESSION['id']."' AND vue='1' AND id_dest != '".$_SESSION['id']."' ORDER BY vue DESC LIMIT 15";
-            
-            $sql2 = "SELECT id FROM 
-            ( SELECT M.id, id_compte, id_dest,M.lut FROM msg M JOIN ( SELECT MAX( id ) AS id, IF( id_compte =  '".$_SESSION['id']."', id_dest, id_compte ) 
-            AS contact FROM msg WHERE id_compte =  '".$_SESSION['id']."' OR id_dest =  '".$_SESSION['id']."' GROUP BY contact ) L 
-            ON M.id = L.id AND (M.id_compte = L.contact OR M.id_dest = L.contact) 
-            WHERE (id_dest =  '".$_SESSION['id']."')AND (M.suppr_first !=  '".$_SESSION['id']."' AND M.suppr_seconde !=  '".$_SESSION['id']."') 
-            AND M.lut =  '0' ORDER BY M.lut ASC, M.id DESC LIMIT 15) AS new_message";
-
-            $sql4 = "SELECT id FROM amis WHERE etat='1' AND vue='1' AND id_compte_demande = '".$_SESSION['id']."' ORDER BY etat DESC, vue DESC ";
-
-            $req1 = @mysqli_query($db, $sql1);
-            $req2 = @mysqli_query($db, $sql2);
-            $req3 = @mysqli_query($db, $sql3);
-            $req4 = @mysqli_query($db, $sql4);
-
-
-            $nbr1 = @mysqli_num_rows($req1); if($nbr1==0) $nbr1 = '';
-            $nbr2 = @mysqli_num_rows($req2); if($nbr2==0) $nbr2 = '';
-            $nbr3 = @mysqli_num_rows($req3); if($nbr3==0) $nbr3 = '';
-            $nbr4 = @mysqli_num_rows($req4); if($nbr4==0) $nbr4 = '';
-
-            @mysqli_free_result($req1);
-            @mysqli_free_result($req2);
-            @mysqli_free_result($req3);
-            @mysqli_free_result($req4);
-
-            if(isset($_SESSION['son']) && !empty($_SESSION['son']) && $_SESSION['son']>=0 && $nbr2 > $_SESSION['son']){
+        if ($request->isXmlHttpRequest())
+        {
+            $id      = $this->get('security.context')->getToken()->getUser()->getId();
+            $db      = $this->get('database_connection');
+            $message = $db->prepare("SELECT id FROM 
+            ( SELECT M.id, user_sent_id, user_receive_id, M.lut FROM diridarek__Message M JOIN ( SELECT MAX(id) AS id, IF( user_sent_id = :id, user_receive_id, user_sent_id ) 
+            AS contact FROM diridarek__Message WHERE user_sent_id = :id OR user_receive_id = :id GROUP BY contact ) L 
+            ON M.id = L.id AND (M.user_sent_id = L.contact OR M.user_receive_id = L.contact) 
+            WHERE (user_receive_id = :id) AND (M.delFirst_id != :id AND M.delSeconde_id != :id) 
+            AND M.lut = '0' ORDER BY M.lut ASC, M.id DESC LIMIT 10) AS new_message");
+            $message->bindValue(':id', $id);
+            $message->execute();
+            $amis  = $db->prepare("SELECT id FROM diridarek__Amis WHERE etat='1' AND vue='1' AND user_sent_id = ':id' ORDER BY etat DESC, vue DESC ");
+            $amis->bindValue(':id', $id);
+            $amis->execute();
+            $nbr1 = $nbr2 = 0;
+            foreach($message as $data){
+                $nbr1++;
+            }
+            foreach($amis as $data){
+                $nbr2++;
+            }
+            $session = new Session();
+            if((null != $session->get('son')) && ($session->get('son')>=0) && ($nbr1 > $session->get('son'))){
                 $son = '1';
             }else{ $son = '0'; }
-
-            $_SESSION['son'] = $nbr2;
-
-            $mes[] = array( 'son' => $son, 'nbr1' => $nbr1, 'nbr2' => $nbr2, 'nbr3' => $nbr3, 'nbr4' => $nbr4 );
-            die($_GET['callback'].'('.json_encode($mes).')');
-            
+            $session->set('son', $nbr1);
+            $mes = array( 'son' => $son, 'nbr1' => $nbr1, 'nbr2' => $nbr2 );
+            $response = new JsonResponse();
+            return $response->setData($mes);
         }
     }
     
-    public function getVDAction()
+    public function getVDAction(Request $request)
     {
-        if(isset($_SESSION) && isset($_SESSION['mail']) && isset($_SESSION['mdp']) && !empty($_SESSION['mail']) && !empty($_SESSION['mdp']) && isset($_SESSION['id']) && !empty($_SESSION['id']) && $_SESSION['id']>=1){
-	
-                
-            $mes  = array();
-            $sql1 = "SELECT id FROM visite  WHERE id_compte='".intval($_SESSION['id'])."' AND vue='1' AND id_dest != '".intval($_SESSION['id'])."' ORDER BY vue DESC LIMIT 15";
-            $sql2 = "SELECT id FROM demande WHERE id_dest  ='".intval($_SESSION['id'])."' AND etat='2' ORDER BY etat DESC LIMIT 15";
-
-            $req1 = @mysqli_query($db, $sql1);
-            $req2 = @mysqli_query($db, $sql2);
-
-
-            $nbr1 = @mysqli_num_rows($req1);
-            $nbr2 = @mysqli_num_rows($req2);
-
-            @mysqli_free_result($req1);
-            @mysqli_free_result($req2);
-
-            if(isset($_SESSION['son']) && !empty($_SESSION['son']) && $_SESSION['son']>=0 && $nbr1 > $_SESSION['son']){
+        if ($request->isXmlHttpRequest())
+        {   
+            $id      = $this->get('security.context')->getToken()->getUser()->getId();
+            $db      = $this->get('database_connection');
+            $demande = $db->prepare("SELECT id FROM diridarek__Demande WHERE user_receive_id =':id' AND etat='2' ORDER BY etat DESC LIMIT 10");
+            $demande->bindValue(':id', $id);
+            $demande->execute();
+            $visite  = $db->prepare("SELECT id FROM diridarek__Visite WHERE user_sent_id=':id' AND vue='1' AND user_receive_id != ':id' ORDER BY vue DESC LIMIT 10");
+            $visite->bindValue(':id', $id);
+            $visite->execute();
+            $nbr1 = $nbr2 = 0;
+            foreach($visite as $data){
+                $nbr1++;
+            }
+            foreach($demande as $data){
+                $nbr2++;
+            }
+            $session = new Session();
+            if((null != $session->get('son')) && ($session->get('son') >= 0) && ($nbr2 > $session->get('son')) ){
                 $son = '1';
             }else{ $son = '0'; }
-
-            $_SESSION['son'] = $nbr1; // revoir le son
-
-            $mes[] = array( 'son' => $son, 'nbr3' => $nbr1, 'nbr1' => $nbr2);
-            die($_GET['callback'].'('.json_encode($mes).')');
+            $session->set('son', $nbr2);
+            $mes      = array( 'son' => $son, 'nbr1' => $nbr1, 'nbr2' => $nbr2);
+            $response = new JsonResponse();
+            return $response->setData($mes);
         }
     }
     
-    public function messagesAction()
+    public function messagesAction(Request $request)
     {
-        if(isset($_SESSION) && isset($_SESSION['mail']) && isset($_SESSION['mdp']) && !empty($_SESSION['mail']) && !empty($_SESSION['mdp']) && isset($_SESSION['id']) && !empty($_SESSION['id']) && $_SESSION['id']>=1){
-	
-            $message = array();
+        if ($request->isXmlHttpRequest())
+        {
+            $em      = $this->getDoctrine();
+            $id      = $this->get('security.context')->getToken()->getUser()->getId();
+            $message = $em->getRepository('BaseDiridarekBundle:Message')
+                ->createQueryBuilder('a')
+                ->addSelect('b')
+                ->leftJoin('a.user_sent', 'b')
+                ->addSelect('c')
+                ->leftJoin('a.user_receive', 'c')
+                ->where('a.user_sent = :id OR a.user_receive = :id')
+                ->andWhere('(a.delFirst != :id OR a.delFirst IS NULL) AND (a.delSeconde != :id OR a.delSeconde IS NULL)')
+                ->setParameter('id', $id)
+                ->orderBy('a.lut', 'ASC')
+                ->addOrderBy('a.dateTime', 'DESC')
+                ->getQuery()
+                ->getResult();
+            /*
             $sqlmsg = "SELECT id, message, L.depot, id_compte, id_dest, lut FROM msg M
                        JOIN (SELECT MAX(depot) AS depot, IF (id_compte='".$_SESSION['id']."', id_dest, id_compte) AS contact FROM msg 
                        WHERE id_compte = '".$_SESSION['id']."' OR id_dest = '".$_SESSION['id']."' GROUP BY contact) L
                        ON M.depot = L.depot AND (M.id_compte = L.contact OR M.id_dest = L.contact)
                        WHERE (id_compte = '".$_SESSION['id']."' OR id_dest = '".$_SESSION['id']."') AND (M.suppr_first != '".$_SESSION['id']."' AND M.suppr_seconde != '".$_SESSION['id']."') ORDER BY lut ASC,depot DESC";
-            $reqmsg = @mysqli_query($db, $sqlmsg);
-            $nbrmsg = @mysqli_num_rows($reqmsg);
-            while($lig = @mysqli_fetch_assoc($reqmsg)){
-                if($lig['id_compte']!=$_SESSION['id']) $id=$lig['id_compte']; else $id=$lig['id_dest'];
-                $sql = "SELECT prenom,nom,sexe,last_connexion,photo FROM compte WHERE id='$id' LIMIT 1";
-                $req = @mysqli_query($db, $sql);
-                $lii = @mysqli_fetch_assoc($req);
-                $message[] = array(
-                        'session' => $_SESSION['id'],
-                        'nbr'	  => $nbrmsg,
-                        'id'      => $lig['id'],
-                        'de'      => $lig['id_compte'],
-                        'a' 	  => $lig['id_dest'],
-                        'lut'     => $lig['lut'],
-                        'prenom'  => utf8_encode($lii['prenom']),
-                        'nom'	  => utf8_encode($lii['nom']),
-                        'sexe'    => $lii['sexe'],
-                        'photo'    => $lii['photo'],
-                        'last'    => $lii['last_connexion']
-                );
+            */
+            $messages = $m = array();
+            foreach($message as $data){
+                if( !in_array($data->getUserSent()->getId(), $m) && !in_array($data->getUserSent()->getId(), $m) ){
+                    //$m[] = $data->getId();
+                    if($id != $data->getUserSent()->getId()){
+                        $messages[] = array(
+                            'session' => $id,
+                            'id'      => $data->getUserSent()->getId(),
+                            'lut'     => $data->getLut(),
+                            'prenom'  => $data->getUserSent()->getSecondename(),
+                            'nom'     => $data->getUserSent()->getFirstname(),
+                            'sexe'    => $data->getUserSent()->getGender(),
+                            'photo'   => "",
+                            'last'    => $data->getUserSent()->getLastConnexion(),
+                        );
+                        $m[] = $data->getUserSent()->getId();
+                    }else{
+                        $messages[] = array(
+                            'session' => $id,
+                            'id'      => $data->getUserReceive()->getId(),
+                            'lut'     => $data->getLut(),
+                            'prenom'  => $data->getUserReceive()->getSecondename(),
+                            'nom'     => $data->getUserReceive()->getFirstname(),
+                            'sexe'    => $data->getUserReceive()->getGender(),
+                            'photo'   => "",
+                            'last'    => $data->getUserReceive()->getLastConnexion(),
+                        );
+                        $m[] = $data->getUserReceive()->getId();
+                    }
+                }
             }
-            $sqlup = "UPDATE msg SET lut='1' WHERE id_dest='".$_SESSION['id']."' AND lut='0' ORDER BY lut ASC, id DESC LIMIT 15";
+            $update = $this->get('doctrine')->getManager()
+                ->createQueryBuilder('a')
+                ->update('BaseDiridarekBundle:Message', 'a')
+                ->set('a.lut', "'1'")
+                ->where("a.user_receive = :id AND a.lut = '0'")
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->execute();
             
-            $requp = @mysqli_query($db, $sqlup) or die('Salam alikoum');
-            @mysqli_free_result($req);
-
-            @mysqli_free_result($reqmsg);
-            @mysqli_free_result($req);
-
-            die($_GET['callback'].'('.json_encode($message).')');
-            
+            return $this->container->get('templating')->renderResponse('BaseDiridarekBundle:Accueil:messages.html.twig', array(
+                'messages' => $messages,
+            ));
         }
     }
     

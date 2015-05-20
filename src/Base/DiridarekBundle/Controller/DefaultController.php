@@ -66,7 +66,10 @@ class DefaultController extends Controller
     
     public function accueilAction()
     {
-        return $this->render('BaseDiridarekBundle:Default:accueil.html.twig');
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            return $this->render('BaseDiridarekBundle:Default:accueil.html.twig');
+        }
+        return $this->redirect($this->generateUrl('base_diridarek_homepage'));
     }
     
     public function profilAction()

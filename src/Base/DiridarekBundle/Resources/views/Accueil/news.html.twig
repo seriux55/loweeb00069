@@ -1,0 +1,123 @@
+{% for data in news %}
+<li>
+{% if data.type == "1" %}
+    {% if data.photo is not empty %}
+        <img class="achead" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+    {% elseif data.sexe == "1" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+    {% elseif data.sexe == "0" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+    {% endif %}
+    <div class="boactu">
+        <div class="foactu">
+            <h3><a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">{{ data.prenom }}</a></h3> 
+            <h4> a modifié sa photo de <a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">profil</a>.</h4>
+        </div>
+        <p>Il y a 1h</p>
+        <div class="ctuco">
+            {% if data.photo is not empty %}
+                <img class="acbody" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+            {% elseif data.sexe == "1" %}
+                <img class="acbody" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+            {% elseif data.sexe == "0" %}
+                <img class="acbody" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+            {% endif %}
+        </div>
+    </div>
+{% elseif data.type == "2" %}
+    {% if data.photo is not empty %}
+        <img class="achead" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+    {% elseif data.sexe == "1" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+    {% elseif data.sexe == "0" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+    {% endif %}
+    <div class="boactu">
+        <div class="foactu">
+            <h3><a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">{{ data.prenom }}</a></h3> 
+            <h4> a modifié sa <a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">description</a>.</h4>
+        </div>
+        <p>Il y a 1h</p>
+        <div class="ctuco">
+            <h5>
+                {{ data.description }}
+            </h5>
+        </div>
+    </div>
+{% elseif data.type == "3" %}
+    {% if data.photo is not empty %}
+        <img class="achead" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+    {% elseif data.sexe == "1" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+    {% elseif data.sexe == "0" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+    {% endif %}
+    <div class="boactu">
+        <div class="foactu">
+            <h3><a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">{{ data.prenom }}</a></h3> 
+            <h4> a modifié ses <a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">attentes</a>.</h4>
+        </div>
+        <p>Il y a 1h</p>
+        <div class="ctuco">
+            <h5>
+                {{ data.recherche }}
+            </h5>
+        </div>
+    </div>
+{% elseif data.type == "4" %}
+    {% if data.photo is not empty %}
+        <img class="achead" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+    {% elseif data.sexe == "1" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+    {% elseif data.sexe == "0" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+    {% endif %}
+    <div class="boactu">
+        <div class="foactu">
+            <h3><a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">{{ data.prenom }}</a>{{ data.recherche }} ans</h3> 
+            <h4> a rejoint diridarek.com.</h4>
+        </div>
+        <p>Il y a 1h</p>
+    </div>
+{% elseif data.type == "5" %}
+    {% if data.photo is not empty %}
+        <img class="achead" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+    {% elseif data.sexe == "1" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+    {% elseif data.sexe == "0" %}
+        <img class="achead" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+    {% endif %}
+    <div class="boactu">
+        <div class="foactu">
+            <h3><a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">{{ data.prenom }}</a></h3> 
+            <h4> a modifié son <a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">album</a>.</h4>
+        </div>
+        <p>Il y a 1h</p>
+        <div class="ctuco">
+            <img class="acbody" src="{{ asset('upload/album/' ~ data.photo_album) }}" />
+        </div>
+    </div>
+{% elseif data.type == "6" %}
+    {% if data.statut != null %}
+        {% if data.photo is not empty %}
+            <img class="achead" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+        {% elseif data.sexe == "1" %}
+            <img class="achead" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+        {% elseif data.sexe == "0" %}
+            <img class="achead" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+        {% endif %}
+        <div class="boactu">
+            <div class="foactu">
+                <h3><a href="{{ path('base_diridarek_profil_id', { 'id': data.id_compte }) }}">{{ data.prenom }}</a></h3> 
+            </div>
+            <p>Il y a 1h</p>
+            <div class="ctuco">
+                <div class="ctuco">
+                    <h5>{{ data.statut }}</h5>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endif %}
+</li>
+{% endfor %}

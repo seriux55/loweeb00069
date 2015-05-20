@@ -1,0 +1,28 @@
+<div id="aaa">
+{% for data in messages %}
+    <li id="missage{{ data.id }}">
+        <div class="aaaaa">
+            <a href="" class="supprM" id="supprmsg{{ data.id }}" onClick="return false;">
+                <img class="lasup" src="{{ asset('bundles/basediridarek/images/Delete-icon.png') }}" alt="" />
+            </a>
+            <a class="aa" id="{{ data.id }}"  name="{{ data.prenom }}" onClick="return false;" href="" >															
+                <div class="cprofil">
+                    {% if data.photo is not empty %}
+                        <img class="achead" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+                    {% elseif data.sexe == "1" %}
+                        <img class="achead" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+                    {% elseif data.sexe == "0" %}
+                        <img class="achead" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+                    {% endif %}
+                    <div class="cpcont">
+                        <div class="cpconthead">
+                            <h3>{{ data.prenom }}</h3>
+                            {# dateDiff(lignes.last,lignes.sexe); #}
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </li>
+{% endfor %}
+</div>

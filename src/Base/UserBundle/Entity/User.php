@@ -37,7 +37,8 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-        $this->deposit = new \Datetime();
+        $this->deposit       = new \Datetime();
+        $this->lastConnexion = new \Datetime();
     }
     
     /**
@@ -85,6 +86,13 @@ class User extends BaseUser
      * @ORM\Column(name="phone", type="string", length=255)
      */
     private $phone;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="last_connexion", type="datetime")
+     */
+    private $lastConnexion;
 
     /**
      * @var string
@@ -214,6 +222,29 @@ class User extends BaseUser
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Set lastConnexion
+     *
+     * @param \DateTime $lastConnexion
+     * @return User
+     */
+    public function setLastConnexion($lastConnexion)
+    {
+        $this->lastConnexion = $lastConnexion;
+
+        return $this;
+    }
+
+    /**
+     * Get lastConnexion
+     *
+     * @return \DateTime 
+     */
+    public function getLastConnexion()
+    {
+        return $this->lastConnexion;
     }
 
     /**

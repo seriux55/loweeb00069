@@ -6,6 +6,48 @@ base_diridarek_accueil:
     path:     /fr/
     defaults: { _controller: BaseDiridarekBundle:Default:accueil }
     
+ajax_diridarek_getMA:
+    path:     /fr/get/getMA
+    defaults: { _controller: BaseDiridarekBundle:Accueil:getMA }
+    options:
+        expose: true
+    
+ajax_diridarek_getVD:
+    path:     /fr/get/getVD
+    defaults: { _controller: BaseDiridarekBundle:Accueil:getVD }
+    options:
+        expose: true
+    
+ajax_diridarek_enLigne:
+    path:     /fr/get/enLigne
+    defaults: { _controller: BaseDiridarekBundle:Accueil:enLigne }
+    options:
+        expose: true
+
+ajax_diridarek_news:
+    path:     /fr/get/news
+    defaults: { _controller: BaseDiridarekBundle:Accueil:news }
+    options:
+        expose: true
+        
+ajax_diridarek_messages:
+    path:     /fr/get/messages
+    defaults: { _controller: BaseDiridarekBundle:Accueil:messages }
+    options:
+        expose: true
+        
+ajax_diridarek_contacts:
+    path:     /fr/get/contacts
+    defaults: { _controller: BaseDiridarekBundle:Accueil:contacts }
+    options:
+        expose: true
+    
+base_diridarek_profil_id:
+    path:     /fr/profil/{id}
+    defaults: { _controller: BaseDiridarekBundle:Default:profil }
+    requirements:
+        id:   \d+
+    
 base_diridarek_profil:
     path:     /fr/profil/
     defaults: { _controller: BaseDiridarekBundle:Default:profil }

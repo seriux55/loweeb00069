@@ -13,6 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class Message
 {
     /**
+     * Le constructeur
+     */
+    public function __construct()
+    {
+        $this->lut      = "0";
+        $this->dateTime = new \Datetime();
+    }
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -46,32 +55,30 @@ class Message
      * @ORM\Column(name="lut", type="string", length=255)
      */
     private $lut;
-
+    
     /**
-     * @var string
-     *
-     * @ORM\Column(name="del_first", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Base\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $delFirst;
-
+    
     /**
-     * @var string
-     *
-     * @ORM\Column(name="del_seconde", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Base\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $delSeconde;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="lecture", type="datetime")
+     * @ORM\Column(name="lecture", type="datetime", nullable=true)
      */
     private $lecture;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="ip", type="string", length=255)
+     * @ORM\Column(name="ip", type="string", length=255, nullable=true)
      */
     private $ip;
 
@@ -124,7 +131,7 @@ class Message
      */
     public function setUserReceive(\Base\UserBundle\Entity\User $user_receive)
     {
-        $this->user_accepte = $user_receive;
+        $this->user_receive = $user_receive;
 
         return $this;
     }
@@ -188,10 +195,10 @@ class Message
     /**
      * Set delFirst
      *
-     * @param string $delFirst
+     * @param \Base\UserBundle\Entity\User $delFirst
      * @return Message
      */
-    public function setDelFirst($delFirst)
+    public function setDelFirst(\Base\UserBundle\Entity\User $delFirst)
     {
         $this->delFirst = $delFirst;
 
@@ -201,7 +208,7 @@ class Message
     /**
      * Get delFirst
      *
-     * @return string 
+     * @return \Base\UserBundle\Entity\User 
      */
     public function getDelFirst()
     {
@@ -211,10 +218,10 @@ class Message
     /**
      * Set delSeconde
      *
-     * @param string $delSeconde
+     * @param \Base\UserBundle\Entity\User $delSeconde
      * @return Message
      */
-    public function setDelSeconde($delSeconde)
+    public function setDelSeconde(\Base\UserBundle\Entity\User $delSeconde)
     {
         $this->delSeconde = $delSeconde;
 
@@ -224,7 +231,7 @@ class Message
     /**
      * Get delSeconde
      *
-     * @return string 
+     * @return \Base\UserBundle\Entity\User 
      */
     public function getDelSeconde()
     {

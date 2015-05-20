@@ -66,8 +66,8 @@
                         <div class="rmad">
                             <img src="{{ asset('bundles/basediridarek/images/valid.png') }}" alt="" />
                             <div class="rmag">
-                                    <h4>Bienvenue !</h4>
-                                    <p>Le site est désormais ouvert 24h/24, 7j/7. On ne ferme plus !</p>
+                                <h4>Bienvenue !</h4>
+                                <p>Le site est désormais ouvert 24h/24, 7j/7. On ne ferme plus !</p>
                             </div>
                         </div>
                         <div class="rmae">
@@ -193,7 +193,6 @@
                                 </nav>
                             </div>				
                         </div>
-			
                         <div class="avis">
                             <form action="" method="">
                                 <label class="garlabi">Un problème, des idées, un avis sur le site ? </label>
@@ -220,7 +219,6 @@
                                         <div id="lescontactss">
                                         </div>
                                         <div id="ajoutContact">
-
                                         </div>
                                     </ul>
                                 </div>
@@ -274,10 +272,8 @@
                                     <ul>
                                 	<div id="actutu">
                                 	</div>
-                                	
                                         <li>			
                                             <img class="achead" src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
-                                            			
                                             <div class="boactu">
                                                 <div class="foactu">
                                                     <h3><a href="profil.php?dar=3">Nadir</a></h3>
@@ -285,18 +281,18 @@
                                                 </div>
                                                 <p>Il y a 2 minutes</p>
                                                 <div class="ctuco">
-                                                    <img class="acbody" src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
-                                                    
+                                                    <img class="acbody" src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />                                       
                                                 </div>
                                             </div>
                                         </li>
-                                            
                                         <div id="suiteActu">	
+                                            {% include 'BaseDiridarekBundle:Accueil:news.html.twig' with {'news' : ''} %}
                                         </div>
                                     </ul>
                                 </div>
                                 <div class="dfooter">
-                                    <a href="" onClick="return false;"><div class="plus" id="plus">Plus</div></a>
+                                    <a href="" onClick="return false;" class="plus" id="plus">Plus</a>
+                                    <img class="loai" id="plus_loading" style="display:none" alt="" src="{{ asset('bundles/basediridarek/images/loading.gif') }}">
                                 </div>
                             </div>
                             <!-- FinActualite -->
@@ -317,22 +313,16 @@
                                                     <img class="jdimin" alt="Amis" src="{{ asset('bundles/basediridarek/images/icone/jdide.png') }}">
                                                     <div class="prlim">
                                                         <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
-                                                        
                                                     </div>
                                                     <div class="dpcomem">
                                                         <div class="dpconthead">			
                                                             <h3><div class="limit"><a href="profil.php?dar=3">Nadir</a></div>, 29ans</h3>
-                                                            
                                                                 <h4><img class="stitia" src="{{ asset('bundles/basediridarek/images/off_ligne_woman.png') }}" alt="" title="Hors ligne"/></h4>
-                                                            
                                                             <p class="stiop"><img class="stitiv" src="{{ asset('bundles/basediridarek/images/situ.png') }}" alt="" />Alger</p>
                                                         </div>				
                                                         <div class="dpcontfoot">
-                                                            
-                                                                    <a href="" class="envoee "onClick="return false;"><img class="bou" src="{{ asset('bundles/basediridarek/images/envoie.png') }}" alt="" /> Envoyée</a>
-                                                                
-                                                            <a href="" id="3" class="aa" 
-                                                                                                    name="Nadir"
+                                                            <a href="" class="envoee "onClick="return false;"><img class="bou" src="{{ asset('bundles/basediridarek/images/envoie.png') }}" alt="" /> Envoyée</a>
+                                                            <a href="" id="3" class="aa" name="Nadir"
                                                                                                     onClick="document.getElementById('message').style.display='block';
                                                                                                     document.getElementById('contgu').style.display='block'; 
                                                                                                     document.getElementById('enligne').style.display='none'; 
@@ -342,7 +332,6 @@
                                                                                                     document.getElementById('ligneee').style.display='none'; 
                                                                                                     afficheMsg(); 
                                                                                                     return false;"><img class="bou" src="{{ asset('bundles/basediridarek/images/mes.png') }}" alt="" />  Message</a>
-                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -402,7 +391,6 @@
                                                         <div class="dpconthead">
                                                             <h5>Nadir ALLAM</h5>
                                                             <p class="stiop">29ans, Alger</p>
-                                                            
                                                         </div>
                                                         <p class="inpros">Salam</p>
                                                         <p class="inpro">Derniere connexion : 2015-05-15</p>
@@ -451,13 +439,11 @@
                                             <li>
                                                 <div class="dprofil">
                                                     <div class="imdpo">
-                                                        <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
-                                                        				
+                                                        <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />				
                                                     </div>
                                                     <div class="dpcont">
                                                         <div class="dpconthead">
                                                             <h5>Nadir ALLAM</h5>
-                                                            
                                                             <p>29ans, Alger</p>
                                                         </div>
                                                         <p class="inpros">En ligne</p>
@@ -554,7 +540,6 @@
                                                 <div class="dprofil">
                                                     <div class="imdpo">
                                                         <img src="{{ asset('upload/profil/554a8dd6bfb84.jpg') }}" alt="Nadir" />
-                                                         
                                                     </div>
                                                     <div class="dpcont">
                                                         <div class="dpconthead">
@@ -598,12 +583,12 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script type="text/javascript" src="{{ asset('bundles/basediridarek/js/prototype.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/basediridarek/js/accueil.js') }}"></script>
         <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/basediridarek/js/accueil.js') }}"></script>
         <audio preload="auto" id="sonson">
-            <source src="{{ asset('bundles/basediridarek/son/beep.mp3') }}" type="audio/mp3">
-            <source src="{{ asset('bundles/basediridarek/son/beep.ogg') }}" type="audio/ogg">
+            <source src="{{ asset('bundles/basediridarek/sound/beep.mp3') }}" type="audio/mp3">
+            <source src="{{ asset('bundles/basediridarek/sound/beep.ogg') }}" type="audio/ogg">
         </audio>
     </body>
 </html>

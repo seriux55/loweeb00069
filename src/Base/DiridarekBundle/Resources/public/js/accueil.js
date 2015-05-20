@@ -2,7 +2,7 @@
  * le main
  */ 
 var msgajax, id, iddd, idc;
-var tab, ligne = new Array();
+var tab, ligne = new Array(), idPage=10;
 
 /*
  * function qui affiche les emoticons
@@ -40,95 +40,33 @@ function replaceEmoticons(text) {
 }
 
 /*
- *   La fonction qui affiche la liste des messages //new
+ *  La fonction qui affiche la liste des messages //new
  */
 function newrefreshlistmsg(){
     $("#loadmessages").show();
     jQuery.ajax({
-        type: 	  'GET',
-        url:  	  '../controllers/accueil/messages.php?callback=?',
-        //data: 	  { id: idd }, 
+        type: 	  'POST',
+        url:  	  Routing.generate('ajax_diridarek_messages'),
         cache:    false,
-        async: 	  true,
-        dataType: 'jsonp',
         success:  function(data) {
-            var photo,idm,id,style;
-            var msgajax='';
-            msgajax+='<div id="aaa">';
-            for( var x in data ) {            
-                var lignes = data[x];
-                if(lignes.de !== lignes.session) id = lignes.de; else id = lignes.a;
-                if(lignes.photo !== ""){ photo = "<div class='cpimagi'><img src='../img/profil/"+ lignes.photo +"' alt='' /></div>"; }else{
-                    if(lignes.sexe === 'Mr') photo = '<div class="cpimagi"><img src="../images/man.jpg" alt="" /></div>'; 
-                    else if(lignes.sexe === 'Mlle') photo = '<div class="cpimagi"><img src="../images/woman.png" alt="" /></div>';
-                }
-                idm  = 'msg' + id;
-                msgajax +='<li id="missage'+ id +'"'+ style +'>/';
-                msgajax +='    <div class="aaaaa">';
-                msgajax +='    		<a href="" class="supprM" id="supprmsg'+ id +'" onClick="return false;"><img class="lasup" src="../images/Delete-icon.png" alt="" /></a>';
-                msgajax +='    		<a class="aa" id="'+ id +'"  name="'+ stripslashes(htmlspecialchars(utf8_encode(lignes.prenom), "ENT_QUOTES")) +'" onClick="return false;" href="" >';															
-                msgajax +='	       		<div class="cprofil">';
-                msgajax += photo;
-                msgajax +='					<div class="cpcont">';
-                msgajax +='						<div class="cpconthead">';
-                msgajax +='							<h3>' + stripslashes(htmlspecialchars(utf8_encode(lignes.prenom), "ENT_QUOTES")); msgajax += '</h3>';
-                msgajax +='							' + dateDiff(lignes.last,lignes.sexe);
-                msgajax +='						</div>';
-                msgajax +='					</div>';
-                msgajax +='		 		</div>';
-                msgajax +='    		</a>';
-                msgajax +='    </div>';
-                msgajax +='</li>';	
-            }
-            msgajax += '</div>';
-            $("#lesmessages").empty().html(msgajax);
+            $("#lesmessages").empty().html(data);
             $("#loadmessages").hide();
         }
     });
 }
 
 /*
- *   La fonction qui affiche la liste des contacts //new
+ *  La fonction qui affiche la liste des contacts //new
  */
 function newrefreshcontact(){
 	
     $('#contactfriend').show();
     jQuery.ajax({
-        type: 	  'GET',
-        url:  	  '../controllers/accueil/contacts.php?callback=?',
+        type: 	  'POST',
+        url:  	  Routing.generate('ajax_diridarek_contacts'),
         cache:    false,
-        async: 	  true,
-        dataType: 'jsonp',
         success:  function(data) {
-
-            var contajax,id,idm,photo,nom;
-            contajax ='<div id="lescontacts">';
-            for( var x in data ) {            
-            	var lignes = data[x];
-                if(lignes.photo !== ""){ photo = "<div class='cpimagi'><img src='../img/profil/"+ lignes.photo +"' alt='' /></div>"; }else{
-                    if(lignes.sexe === 'Mr') photo = '<div class="cpimagi"><img src="../images/man.jpg" alt="" /></div>'; 
-                    else if(lignes.sexe === 'Mlle') photo = '<div class="cpimagi"><img src="../images/woman.png" alt="" /></div>';
-                }
-                if(lignes.nom !== ''){ nom = stripslashes(htmlspecialchars(utf8_encode(lignes.prenom), "ENT_QUOTES")) + ' ' + stripslashes(htmlspecialchars(utf8_encode(lignes.nom), "ENT_QUOTES")); }else nom = stripslashes(htmlspecialchars(utf8_encode(lignes.prenom), "ENT_QUOTES"));
-                idm  = 'msg' + lignes.id;
-                contajax += '<li id="cintact'+ lignes.id +'">';
-                contajax += '	<a href="" class="supprC" id="supprcon'+ lignes.id +'" onClick="return false;"><img class="lasup" src="../images/Delete-icon.png" alt="" /></a>';
-                contajax += '	<div class="cprofil">';
-                contajax += photo;
-                contajax += '		<div class="cpcont">';
-                contajax += '			<div class="cpconthead">';
-                contajax += '				<a href="profil.php?dar='+ lignes.id +'"><h3>' + nom + '</h3></a>';
-                contajax += '				' + dateDiff(lignes.last,lignes.sexe);
-                contajax += '			</div>';
-                contajax += '			<div class="dptfoot">';
-                contajax += '				<a class="bb" href="" id="'+ lignes.id +'" name="'+stripslashes(htmlspecialchars(utf8_encode(lignes.prenom), "ENT_QUOTES"))+'" onClick="return false;">Message</a>';
-                contajax += '			</div>';
-                contajax += '		</div>';
-                contajax += '	</div>';
-                contajax += '</li>';
-            }
-            contajax +='</div>';
-            $("#lescontactss").empty().html(contajax);
+            $("#lescontactss").empty().html(data);
             $('#contactfriend').hide();
             
             $( "body" ).on( "click", "#contproff", function(){
@@ -143,14 +81,13 @@ function newrefreshcontact(){
     });
 };
 
-/**
-*   La fonction qui refrech et affiche les messages d'un seul utilisateur
-*   @param int idd L'id du message
-**/
+/*
+ *  La fonction qui refrech et affiche les messages d'un seul utilisateur
+ *  @param int idd L'id du message
+ */
 function refreshmsg(idd,first,one){
 	
     if(one === 'a') $('#loadmsg').show();
-    //alert(first);
     var photoo,messaGe,photooo;
 
     eraseCookie(iddd);
@@ -164,21 +101,15 @@ function refreshmsg(idd,first,one){
         dataType: 'jsonp',
         success:  function(json) {
             if(json !== 'null'){
-                //alert('ok');
-                var ph,pseud;
+                var pseud;
                 var msgajx = '<ul>';
-                for( var x in json ) {				
-				
+                for( var x in json ) {
                     var ligne = json[x];
-                    //if(ligne.sexe == 'Mr') ph='man.jpg'; else if(ligne.sexe == 'Mlle') ph='woman.png';
                     if(ligne.photo !== ""){ photoo = "<div class='ameima'><img src='../img/profil/"+ ligne.photo +"' alt='' /></div>"; }else{
                         if(ligne.sexe === 'Mr') photoo = '<div class="ameima"><img src="../images/man.jpg" alt="" /></div>'; 
                         else if(ligne.sexe === 'Mlle') photoo = '<div class="ameima"><img src="../images/woman.png" alt="" /></div>';
                     }
-                    // les modifs -> permutations
-                    //if(ligne.last != null) msgajx += '<li><div class="amessage">' + photoo + '<div class="amgcont"><div class="amesshead"><h3>'+ stripslashes(htmlspecialchars(utf8_encode(ligne.prenom), "ENT_QUOTES")) +'</h3><h6>'+ ligne.depot +'</h6>' + dateDiff(ligne.last,ligne.sexe) + '</div><p class="inpros">'+ ligne.msg +'</p></div></div></li>';
                     if(ligne.last !== null) msgajx += '<li><div class="amessage">' + photoo + '<div class="amgcont"><div class="amesshead"><h3>'+ stripslashes(htmlspecialchars(utf8_encode(ligne.prenom), "ENT_QUOTES")) +'</h3><h6>'+ ligne.depot +'</h6></div><p class="inpros">'+ ligne.msg +'</p></div></div></li>';
-                    //if(ligne.pseudo == '0') pseud = 'Votre message'; else if(ligne.pseudo != '') pseud  = stripslashes(htmlspecialchars(utf8_encode(ligne.pseudo), "ENT_QUOTES"));
                     if(ligne.pseudo === '0') pseud = 'Votre message'; else if(ligne.pseudo !== '') pseud  = '<a href="profil.php?dar='+ idd +'">' + stripslashes(htmlspecialchars(utf8_encode(ligne.pseudo), "ENT_QUOTES")) + '</a>';
                 }
                 msgajx += '<li><div id="tmer"></div></li>';
@@ -236,8 +167,8 @@ function refreshmsg(idd,first,one){
 }
 
 /*
- *   La fonction qui supprime le setTimeOut
- *   @param var time Le nom de la variable setTimeOut
+ *  La fonction qui supprime le setTimeOut
+ *  @param var time Le nom de la variable setTimeOut
  */
 function suppr(time){
     clearTimeout(time);
@@ -246,57 +177,52 @@ function suppr(time){
 /*
  *  La fonction qui refresh les nombres des notifications messages et demandes
  */
-$.PeriodicalUpdater('../controllers/accueil/getMA.php?callback=?', 
+$.PeriodicalUpdater(Routing.generate('ajax_diridarek_getMA'), 
     {
-        method:     'GET',
+        method:     'POST',
         minTimeout: 39000,
         maxTimeout: 43000,
         multiplier: 2,			
         cache:      false,
-        async:      true,
-        type: 	    'jsonp',
-        autoStop:   0,		
+        autoStop:   0
     }, function(json, success, xhr, handle) {
-        var nbr2,nbr4,son;
+        var nbr1, nbr2, son;
         for( var x in json ) {
             var ligne = json[x];
+            nbr1 = ligne.nbr1;
             nbr2 = ligne.nbr2;
-            nbr4 = ligne.nbr4;
             son  = ligne.son;
         }
-        if(son===1 ){ $('#sonson')[0].play(); }
-        if(nbr2>=1){ $('#messages').show(nbr2); } else{ $('#messages').hide(); }
-        if(nbr4>=1){ $('#contac').show(nbr4);   } else{ $('#contac').hide(); }
+        if(son  === 1) { $('#sonson')[0].play();     }
+        if(nbr1 >= 1)  { $('#messages') .show(nbr1); } else{ $('#messages').hide(); }
+        if(nbr2 >= 1)  { $('#contac')   .show(nbr2); } else{ $('#contac')  .hide(); }
     }
 );
 
 /*
- *   La fonction qui refresh les nombres des notifications visites et demandes acceptées
+ *  La fonction qui refresh les nombres des notifications visites et demandes acceptées
  */
-$.PeriodicalUpdater('../controllers/accueil/getVD.php?callback=?', 
+$.PeriodicalUpdater(Routing.generate('ajax_diridarek_getVD'), 
     {
-        method:     'GET',
+        method:     'POST',
         minTimeout: 59800,
         maxTimeout: 64000,
         multiplier: 2,
         cache:      false,
-        async:      true,
-        type: 	    'jsonp',
-        autoStop:   0,
+        autoStop:   0
     }, function(json, success, xhr, handle) {
-        var nbr1,nbr3,son;
+        var nbr1,nbr2,son;
         for( var x in json ) {
             var ligne = json[x];
             nbr1 = ligne.nbr1;
-            nbr3 = ligne.nbr3;
+            nbr2 = ligne.nbr2;
             son  = ligne.son;
         }
-        if(son===1 ){ $('#sonson')[0].play(); }
-        if(nbr1>=1){ $('#demandes').show(nbr1); } else{ $('#demandes').hide(); }
-        if(nbr3>=1){ $('#visites').show(nbr3);  } else{ $('#visites').hide(); }
+        if(son === 1){ $('#sonson')[0].play();    }
+        if(nbr1 >= 1){ $('#demandes').show(nbr1); }else{ $('#demandes').hide(); }
+        if(nbr2 >= 1){ $('#visites') .show(nbr2); }else{ $('#visites') .hide(); }
     }
 );
-
 
 /*
  *  La fonction qui supprime au moment du clique sur le menu contacts
@@ -306,7 +232,7 @@ $('#con').on('click',function(){
 });	
 
 /*
- *   La fonction qui s'execute au moment du clique sur message pour avoir la liste des messages
+ *  La fonction qui s'execute au moment du clique sur message pour avoir la liste des messages
  */
 $("#miss").on('click',function(){
     newrefreshlistmsg();
@@ -328,7 +254,7 @@ $( "body" ).on( "click", ".aa", function(){
     $("#visite")     .css('display','none');
     $("#profil")     .css('display','none');
     $("#ligneee")    .css('display','none');
-    refreshmsg(idd,first,'a');
+    refreshmsg(idd, first, 'a');
 });	
 
 /*
@@ -348,7 +274,7 @@ $( "body" ).on( "click", ".aab", function(){
     $("#visite")     .css('display','none');
     $("#profil")     .css('display','none');
     $("#ligneee")    .css('display','none');
-    refreshmsg(idd,first,'a');
+    refreshmsg(idd, first, 'a');
 });	
 
 /*
@@ -367,23 +293,20 @@ $( "body" ).on( "click", ".bb", function(e){
     $("#visite")     .css('display','none');
     $("#profil")     .css('display','none');
     $("#ligneee")    .css('display','none');
-    refreshmsg(idd,first,'a');
+    refreshmsg(idd, first, 'a');
 });	
 
 /*
  *  La fonction qui refresh l'etat de connexion de l'utilisateur En ligne ou Hors ligne
  */
-$.PeriodicalUpdater('../controllers/accueil/enligne.php', 
+$.PeriodicalUpdater(Routing.generate('ajax_diridarek_enLigne'), 
     {
-        method:     'GET',
-        //data:     {},
-        minTimeout: 600000,
+        method:     'POST',
+        minTimeout: 6000,
         maxTimeout: 650000,
-        multiplier: 1,
-        type: 	    'text',
-
-    }, function(data, success, xhr, handle) {
-        if(data === 'okent') window.location.href = 'http://www.diridarek.com/'; 
+        multiplier: 1
+    }, function(json, success, xhr, handle) {
+        if(json.data !== 'yes') window.location.href = 'http://www.diridarek.com/'; 
     }
 );
 
@@ -401,7 +324,6 @@ $( "body" ).on( "click", ".demandi", function(){
         dataType: 'jsonp',
         success:  function(json) {
             if(json !== ''){
-                //alert(json);
             }
         }
     });
@@ -424,7 +346,7 @@ $( "body" ).on( "click", ".ouiami", function(){
 });
 
 /*
- *	La fonction qui refuse la demande d'amis
+ *  La fonction qui refuse la demande d'amis
  */
 $( "body" ).on( "click", ".nonami", function(){
     var ide = this.id; // Récupère l'id du message
@@ -434,8 +356,7 @@ $( "body" ).on( "click", ".nonami", function(){
         cache:    false,
         async:    true,
         dataType: 'jsonp',
-        success:  function(data) {
-            //alert(data);
+        success:  function() {
         }
     });
 });
@@ -567,7 +488,7 @@ function profil(idd){
     $("#contgu").css('display','block');
     $('#profilload').show();
     var profil='';
-    var demande;
+    var demande, couverture, photo, nom, lien;
     jQuery.ajax({
         type: 	  'POST',
         url:  	  '../controllers/accueil/profil.php?callback=?',
@@ -576,7 +497,6 @@ function profil(idd){
         async:    true,
         dataType: 'jsonp',
         success:  function(json) {
-
             if(json['ami'] === 1) demande='Demande envoyé'; else if(json['ami'] === 0) demande='Demander';
             lien = "'profil.php?dar="+idd+"'";
             if(json['photo'] !== ""){ photo = "<div class='imdpo'><img src='../img/profil/"+ json['photo'] +"' alt='' /></div>"; }else{
@@ -646,7 +566,6 @@ function demande(idd){
         dataType: 'jsonp',
         success:  function(json) {
             if(json !== ''){
-                //alert(json);
             }
         }
     });
@@ -676,6 +595,7 @@ function demandes(){
     
     var nbrD = 0;
     demandes = '';
+    var photo, ville, sexe;
     $("#demandeload").show();
     $.ajax({
         type:     'POST',
@@ -684,7 +604,6 @@ function demandes(){
         async:    true,
         dataType: 'jsonp',
         success: function(data) {
-			
             var demandes;
             demandes='';
             for( var x in data ) {     
@@ -701,7 +620,7 @@ function demandes(){
                 demandes += '       <div class="dpcont">';
                 demandes += '           <div class="dpconthead">';
                 demandes += '               <h5>'+ stripslashes(htmlspecialchars(utf8_encode(lignes.prenom), "ENT_QUOTES")) +'</h5>';
-				demandes += '               ' + dateDiff(lignes.last,lignes.sexe);
+                demandes += '               ' + dateDiff(lignes.last,lignes.sexe);
                 demandes += '               <p class="stiop"><img class="stitig" src="../images/age.png" alt="" />'+ age(lignes.naissance) +'ans</p>'; //visites += ville +'</p>';
                 demandes += '           </div>';
                 demandes += '           <p class="inpros">'+ stripslashes(htmlspecialchars(utf8_encode(lignes.statut), "ENT_QUOTES")) +'</p>';
@@ -715,7 +634,6 @@ function demandes(){
                 demandes += '       </div>';
                 demandes += '   </div>';
                 demandes += '</li>';
-                
                 nbrD++;
             }
             $("#demandes").hide();
@@ -750,7 +668,6 @@ function afficheMsg(){
     $("#demande")    .css('display','none');
     $("#message")    .css('display','block');
 }
-
 
 /*
  *  La function qui afirme la vision de l'acceptation des demandes d'amis
@@ -795,8 +712,8 @@ function visites(){
             for( var x in data ) {  
                 var lignes = data[x];
                 if(lignes.photo !== ""){ photo = "<div class='imdpo'><img src='../img/profil/"+ lignes.photo +"' alt='' /></div>"; }else{
-                        if(lignes.sexe === 'Mr') photo = '<div class="imdpo"><img src="../images/man.jpg" alt="" /></div>'; 
-                        else if(lignes.sexe === 'Mlle') photo = '<div class="imdpo"><img src="../images/woman.png" alt="" /></div>';
+                    if(lignes.sexe === 'Mr') photo = '<div class="imdpo"><img src="../images/man.jpg" alt="" /></div>'; 
+                    else if(lignes.sexe === 'Mlle') photo = '<div class="imdpo"><img src="../images/woman.png" alt="" /></div>';
                 }
                 if(lignes.ville !== "")  ville = ', '+ lignes.ville; else ville = "";
                 visites += '<li>';
@@ -805,13 +722,13 @@ function visites(){
                 visites += '       <div class="dpcont">';
                 visites += '           <div class="dpconthead">';
                 visites += '               <h5>'+ stripslashes(htmlspecialchars(utf8_encode(lignes.prenom), "ENT_QUOTES")) +'</h5>';
-				visites += '               ' + dateDiff(lignes.last,lignes.sexe);
+                visites += '               ' + dateDiff(lignes.last,lignes.sexe);
                 visites += '               <p class="stiop"><img class="stitig" src="../images/age.png" alt="" />'+ age(lignes.naissance) +'ans</p>'; //visites += ville +'</p>';
                 visites += '           </div>';
                 visites += '           <p class="inpros">'+ stripslashes(htmlspecialchars(utf8_encode(lignes.statut), "ENT_QUOTES")) +'</p>';
                 visites += '           <p class="inpro">Derniere connexion : '+ lignes.last +'</p>';
                 visites += '           <div class="dptfoot">';
-				visites += '<a href="" class="cdemande" id="'+ lignes.id +'" onClick="return false;">Demander</a>';
+                visites += '<a href="" class="cdemande" id="'+ lignes.id +'" onClick="return false;">Demander</a>';
                 if(lignes.ami === '1' && lignes.sexe === 'Mr') visites += '               <a href="" class="aa" id="'+ lignes.id +'" onClick="afficheMsg(); return false;" name="'+ lignes.prenom +'">Message</a>';
                 visites += '               <a href="profil.php?dar='+ lignes.id +'">Profil</a>';
                 visites += '           </div>';
@@ -869,9 +786,9 @@ $("#substatut").on("click", function(){
     $("#statutmerci").show();
     var photo;
     var actu = "";
-    var feed     = $("#statut").val(); //alert(feed);
+    var feed     = $("#statut").val();
     var feedback = '<img src="../images/check.png" /><input type="button" value="Statut envoyé, merci." class="avias">'; //alert(feedback);
-    var lollll   = $("#lollll").val(); //alert(lollll);
+    var lollll   = $("#lollll").val();
     if(feed !== '' && feed !== 'Écrire un message...' && lollll === 'azerty'){
     	$.ajax({
             type:     'POST',
@@ -881,7 +798,6 @@ $("#substatut").on("click", function(){
             async:    true,
             dataType: 'jsonp',
             success:  function(data) {
-                //alert('first ok');
                 for( var x in data ) {
                     var lignes = data[x];
                     actu += "<li>";
@@ -934,11 +850,9 @@ $("#cbon").on("click", function(){
         type:     'POST',
         url:      '../controllers/accueil/suppr_remarque.php',
         success:  function() {
-            //alert(data);
         }
     });
 });
-
 
 /*
  *  La fonction qui refresh les en lignes sur le site
@@ -953,7 +867,7 @@ $("#refresh").on("click", function(){
         dataType: 'jsonp',
         success:  function(data) {
             if(data !== '' && data !== null){
-                var visites,photo,ville;
+                var refresh,photo,ville;
                 refresh='';
                 for( var x in data ) {    
                     var lignes = data[x];
@@ -1000,159 +914,26 @@ $("#refresh").on("click", function(){
                     $("#enligne")    .css('display','none');
                     $("#profil")     .css('display','block');
                 });
-            	
             }
         }
     });
 });
 
 /*
- *  La fonction qui renvoi la suite de la liste d'actualite
+ *  La fonction qui affiche la suite de la liste d'actualite
  */
 $( "body" ).on( "click", ".plus", function(){
-    var actu = "";
-    var photo;
-    var ph;
-    $("#plus").html('<img class="loai" alt="" src="../images/loading.gif">');
+    $("#plus").hide();
+    $("#plus_loading").show();
     jQuery.ajax({
         type: 	  'POST',
-        url:  	  '../controllers/accueil/actu.php?callback=?',
+        url:  	  Routing.generate('ajax_diridarek_news'),
         data: 	  { pg: idPage },
         cache:    false,
-        async:    true,
-        dataType: 'jsonp',
-        success:  function(json) {
-            // /////////////////////////////////////////////////
-
-            for( var x in json ) {     
-
-                var lignes = json[x];
-                actu += '<li>';
-                if(lignes.type === "1"){
-                	
-                    if(lignes.photo !== ""){ photo = stripslashes(htmlspecialchars(lignes.photo, "ENT_QUOTES"));
-                        actu += '<img class="achead" src="../img/profil/'+ photo +'" alt="" />';
-                    }else{
-                        if(lignes.sexe === "Mr") photo = 'man.jpg'; else if(lignes.sexe === 'Mlle') photo = "woman.png";
-                        actu += '<img class="achead" src="../images/'+ photo +'" alt="" />';
-                    }
-                    actu += '<div class="boactu">';
-                    actu += '<div class="foactu">';
-                    actu += '<h3><a href="profil.php?dar=' + lignes.id_compte +'">'+ stripslashes(htmlspecialchars(lignes.prenom, "ENT_QUOTES")) + ' </a> </h3> ';
-                    actu += '<h4> a modifié sa photo de <a href="profil.php?dar=' + lignes.id_compte +'">profil</a>.</h4>';
-                    actu += '</div>';
-                    actu += '<p>Il y a 1h</p>';
-                    actu += '<div class="ctuco">';
-                    if(lignes.photo !== ""){
-                            actu += '<img class="acbody" src="../img/profil/'+ photo +'" alt="'+ stripslashes(htmlspecialchars(lignes.prenom, "ENT_QUOTES")) +'" />';
-                    }else{
-                            actu += '<img class="acbody" src="../images/'+ photo +'" alt="'+ stripslashes(htmlspecialchars(lignes.prenom, "ENT_QUOTES")) +'" />';
-                    }
-                    actu += '</div>';
-                    actu += '</div>';
-					
-                }else if(lignes.type === "2"){
-                    if(lignes.photo !== ""){ 
-                        photo = stripslashes(htmlspecialchars(lignes.photo, "ENT_QUOTES"));
-                        actu += '<img class="achead" src="../img/profil/'+ photo +'" alt="" />';
-                    }else{
-                        if(lignes.sexe === "Mr") photo = 'man.jpg'; else if(lignes.sexe === 'Mlle') photo = "woman.png";
-                        actu += '<img class="achead" src="../images/'+ photo +'" alt="" />';
-                    }
-                    actu += '<div class="boactu">';
-                    actu += '<div class="foactu">';
-                    actu += '<h3><a href="profil.php?dar=' + lignes.id_compte +'">'+ stripslashes(htmlspecialchars(lignes.prenom, "ENT_QUOTES")) + ' </a> </h3> ';
-                    actu += '<h4> a modifié sa <a href="profil.php?dar=' + lignes.id_compte +'">description</a>.</h4>';
-                    actu += '</div>';
-                    actu += '<p>Il y a 1h</p>';
-                    actu += '<div class="ctuco">';
-                    actu += '<h5>';
-                    actu += stripslashes(htmlspecialchars(lignes.description, "ENT_QUOTES"));
-                    actu += '</h5>';
-                    actu += '</div>';
-                    actu += '</div>';
-                	
-                }else if(lignes.type === "3"){
-                    if(lignes.photo !== ""){ 
-                        photo = stripslashes(htmlspecialchars(lignes.photo, "ENT_QUOTES"));
-                        actu += '<img class="achead" src="../img/profil/'+ photo +'" alt="" />';
-                    }else{
-                        if(lignes.sexe === "Mr") photo = 'man.jpg'; else if(lignes.sexe === 'Mlle') photo = "woman.png";
-                        actu += '<img class="achead" src="../images/'+ photo +'" alt="" />';
-                    }
-                    actu += '<div class="boactu">';
-                    actu += '<div class="foactu">';
-                    actu += '<h3><a href="profil.php?dar=' + lignes.id_compte +'">'+ stripslashes(htmlspecialchars(lignes.prenom, "ENT_QUOTES")) + ' </a> </h3> ';
-                    actu += '<h4> a modifié ses <a href="profil.php?dar=' + lignes.id_compte +'">attentes</a>.</h4>';
-                    actu += '</div>';
-                    actu += '<p>Il y a 1h</p>';
-                    actu += '<div class="ctuco">';
-                    actu += '<h5>';
-                    actu += stripslashes(htmlspecialchars(lignes.recherche, "ENT_QUOTES"));
-                    actu += '</h5>';
-                    actu += '</div>';
-                    actu += '</div>';
-                	
-                }else if(lignes.type === "4"){
-                    if(lignes.photo !== ""){ photo = stripslashes(htmlspecialchars(lignes.photo, "ENT_QUOTES"));
-                        actu += '<img class="achead" src="../img/profil/'+ photo +'" alt="" />';
-                    }else{
-                        if(lignes.sexe === "Mr") photo = 'man.jpg'; else if(lignes.sexe === 'Mlle') photo = "woman.png";
-                        actu += '<img class="achead" src="../images/'+ photo +'" alt="" />';
-                    }
-                    actu += '<div class="boactu">';
-                    actu += '<div class="foactu">';
-                    actu += '<h3><a href="profil.php?dar=' + lignes.id_compte +'">'+ stripslashes(htmlspecialchars(lignes.prenom, "ENT_QUOTES")) + ' </a>, '+ age(lignes.naissance) +' ans</h3> ';
-                    actu += '<h4> a rejoint diridarek.com.</h4>';
-                    actu += '</div>';
-                    actu += '<p>Il y a 1h</p>';
-                    actu += '</div>';
-                }else if(lignes.type === "5"){
-                    if(lignes.photo !== ""){ photo = stripslashes(htmlspecialchars(lignes.photo, "ENT_QUOTES"));
-                        actu += '<img class="achead" src="../img/profil/'+ photo +'" alt="" />';
-                    }else{
-                        if(lignes.sexe === "Mr") photo = 'man.jpg'; else if(lignes.sexe === 'Mlle') photo = "woman.png";
-                        actu += '<img class="achead" src="../images/'+ photo +'" alt="" />';
-                    }
-                    actu += '<div class="boactu">';
-                    actu += '<div class="foactu">';
-                    actu += '<h3><a href="profil.php?dar=' + lignes.id_compte +'">'+ stripslashes(htmlspecialchars(lignes.prenom, "ENT_QUOTES")) + ' </a> </h3> ';
-                    actu += '<h4> a modifié son <a href="profil.php?dar=' + lignes.id_compte +'">album</a>.</h4>';
-                    actu += '</div>';
-                    actu += '<p>Il y a 1h</p>';
-                    actu += '<div class="ctuco">'; 
-                    switch(lignes.album){
-                        case "1": ph = lignes.photo1; break; case "2": ph = lignes.photo2; break; case "3": ph = lignes.photo3; break; case "4": ph = lignes.photo4; break;
-                    } 
-                    actu += '<img class="acbody" src="../img/album/'+ stripslashes(htmlspecialchars(lignes.photo_album, "ENT_QUOTES")) +'" />';
-                    actu += '</div>';
-                }else if(lignes.type === "6"){
-                    if(lignes.statut !== null){
-                	if(lignes.photo_album !== ""){ photo = stripslashes(htmlspecialchars(lignes.photo_album, "ENT_QUOTES"));
-                            actu += '<img class="achead" src="../img/profil/'+ photo +'" alt="" />';
-                        }else{
-                            if(lignes.sexe === "Mr") photo = 'man.jpg'; else if(lignes.sexe === 'Mlle') photo = "woman.png";
-                            actu += '<img class="achead" src="../images/'+ photo +'" alt="" />';
-                        }
-                	actu += '<div class="boactu">';
-                        actu += '<div class="foactu">';
-                        actu += '<h3><a href="profil.php?dar=' + lignes.id_compte +'">'+ stripslashes(htmlspecialchars(lignes.prenom, "ENT_QUOTES")) + ' </a> </h3> ';
-                        actu += '</div>';
-                        actu += '<p>Il y a 1h</p>';
-                        actu += '<div class="ctuco">';
-                        actu += '<div class="ctuco">';
-                        actu += '<h5>'+ htmlspecialchars(stripslashes(lignes.statut), "ENT_QUOTES") +'</h5>';
-                        actu += '</div>';
-                        actu += '</div>';
-                        actu += '</div>';
-                    }else{
-                        actu = "";
-                    }
-                }
-                actu +='</li>';
-            }
-            $("#plus").html('Plus');
-            $("#suiteActu").append(actu);
+        success:  function(data) {
+            $("#plus_loading").hide();
+            $("#suiteActu").append(data);
+            $("#plus").show();
             idPage = idPage+10;
         }
     });
@@ -1174,7 +955,7 @@ $(".pagination").on("click", function(){
         dataType: 'jsonp',
         success:  function(data) {
             if(data !== '' && data !== null){
-                var visites,photo,ville,pre;
+                var refresh,photo,ville,pre;
             	refresh='';
             	for( var x in data ) {
                     var lignes = data[x];
@@ -1232,21 +1013,17 @@ $(".pagination").on("click", function(){
  */
 function utf8_encode(argString) {
     //  discuss at: http://phpjs.org/functions/utf8_encode/
-
     if (argString === null || typeof argString === 'undefined') {
         return '';
     }
-
     var string = (argString + ''); // .replace(/\r\n/g, "\n").replace(/\r/g, "\n");
     var utftext = '',
     start, end, stringl = 0;
-
     start = end = 0;
     stringl = string.length;
     for (var n = 0; n < stringl; n++) {
         var c1 = string.charCodeAt(n);
         var enc = null;
-
         if (c1 < 128) {
             end++;
         } else if (c1 > 127 && c1 < 2048) {
@@ -1278,11 +1055,9 @@ function utf8_encode(argString) {
             start = end = n + 1;
         }
     }
-
     if (end > start) {
       utftext += string.slice(start, stringl);
     }
-
     return utftext;
 }
 
@@ -1291,7 +1066,6 @@ function utf8_encode(argString) {
  */
 function htmlspecialchars(string, quote_style, charset, double_encode) {
   //       discuss at: http://phpjs.org/functions/htmlspecialchars/
-
     var optTemp = 0,
     i = 0,
     noquotes = false;
@@ -1304,7 +1078,6 @@ function htmlspecialchars(string, quote_style, charset, double_encode) {
     }
     string = string.replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
-
     var OPTS = {
         'ENT_NOQUOTES': 0,
         'ENT_HTML_QUOTE_SINGLE': 1,
@@ -1334,7 +1107,6 @@ function htmlspecialchars(string, quote_style, charset, double_encode) {
     if (!noquotes) {
         string = string.replace(/"/g, '&quot;');
     }
-
     return string;
 }
 
@@ -1343,7 +1115,6 @@ function htmlspecialchars(string, quote_style, charset, double_encode) {
  */
 function stripslashes(str) {
   //       discuss at: http://phpjs.org/functions/stripslashes/
-
   return (str + '')
     .replace(/\\(.?)/g, function(s, n1) {
         switch (n1) {

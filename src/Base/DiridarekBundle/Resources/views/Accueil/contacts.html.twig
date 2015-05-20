@@ -1,0 +1,26 @@
+<div id="lescontacts">
+{% for data in contacts %}
+    <!-- idm  = 'msg' + lignes.id; -->
+    <li id="cintact{{ data.id }}">
+        <a href="" class="supprC" id="supprcon{{ data.id }}" onClick="return false;"><img class="lasup" src="{{ asset('bundles/basediridarek/images/Delete-icon.png') }}" alt="" /></a>
+        <div class="cprofil">
+            {% if data.photo is not empty %}
+                <img class="achead" src="{{ asset('upload/profil' ~ data.photo) }}" alt="" />
+            {% elseif data.sexe == "1" %}
+                <img class="achead" src="{{ asset('bundles/basediridarek/images/man.jpg') }}" alt="" />
+            {% elseif data.sexe == "0" %}
+                <img class="achead" src="{{ asset('bundles/basediridarek/images/woman.jpg') }}" alt="" />
+            {% endif %}
+            <div class="cpcont">
+                <div class="cpconthead">
+                    <a href="{{ path('base_diridarek_profil_id', { 'id': data.id }) }}"><h3>{{ data.prenom }}</h3></a>
+                    {# <script>dateDiff({{ data.last }}, {{ data.sexe }});</script> #}
+                </div>
+                <div class="dptfoot">
+                    <a class="bb" href="" id="{{ data.id }}" name="{{ data.prenom }}" onClick="return false;">Message</a>
+                </div>
+            </div>
+        </div>
+    </li>
+{% endfor %}
+</div>
